@@ -7,20 +7,19 @@ import routes from './routes/index.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
 
 // Mongoose
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Could not connect to MongoDB:', err));
 
-// Middleware
 app.use(express.json());
 app.use(cors());
 
 app.use('/api', routes);
 
-// Example route (endpoint)
+// test route
 app.get('/api/data', (req, res) => {
   res.json({ message: 'Hello from the back-end!' });
 });
