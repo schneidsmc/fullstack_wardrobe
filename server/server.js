@@ -21,9 +21,9 @@ app.use(cors());
 app.use('/api', routes);
 
 // Example route (endpoint)
-app.get('/api/data', (req, res) => {
-  res.json({ message: 'Hello from the back-end!' });
-});
+// app.get('/api/data', (req, res) => {
+//   res.json({ message: 'Hello from the back-end!' });
+// });
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
