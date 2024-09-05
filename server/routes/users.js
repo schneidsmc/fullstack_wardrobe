@@ -31,15 +31,23 @@ router.post('/signup', async (req, res) => {
 // POST LOGIN user
 router.post('/login', async (req, res) => {
   try {
-    const {email, password } = req.body;
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
     const user = await User.findOne({ email });
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({ error: 'Invalid email or password'});
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+    const passMatch = await user.comparePassword(password);
+    if (!passMatch) {
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
     const token = generateToken(user);
     res.json({ token });
   } catch (error) {
-    res.status(500).json({ error: 'error with logging in'})
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Error logging in' });
   }
 });
 
