@@ -3,11 +3,16 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import routes from './routes/index.js';
+import path from 'path';
+import { fileURLToPath } from 'url'
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5001;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 
 // Mongoose
 mongoose.connect(process.env.MONGODB_URI)
@@ -16,14 +21,23 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 
 app.use('/api', routes);
 
-// Example route (endpoint)
-// app.get('/api/data', (req, res) => {
-//   res.json({ message: 'Hello from the back-end!' });
-// });
+app.use(express.static(path.join(__dirname, '../client/build')))
+
+app.get('/api/data', (req, res) => {
+  res.json({ "message": 'Hello from the back-end!' });
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'))
+})
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
