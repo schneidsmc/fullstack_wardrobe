@@ -10,7 +10,7 @@ const App = () => {
   useEffect(() => {
     axios.get('/api/data')
     .then(response => {
-      // console.log(response.data)
+      console.log(response.data)
       setData(response.data.message);
     })
     .catch(error => {
