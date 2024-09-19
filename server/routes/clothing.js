@@ -23,6 +23,7 @@ const cloudinaryUpload = (buffer) => {
   })
 }
 
+
 router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     const { category, name, brand, size, color } = req.body;
