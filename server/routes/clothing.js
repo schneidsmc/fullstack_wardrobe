@@ -25,18 +25,14 @@ const cloudinaryUpload = (buffer) => {
 
 router.post('/', authenticateToken, upload.single('image'), async (req, res) => {
   try {
-    console.log('WE ARE HEREEEEEE')
     const { category, name, brand, size, color } = req.body;
     const imageFile = req.file;
-    console.log('ImageFile:', req.file)
-    console.log('body infor:', req.body)
 
     if (!category || !name || !imageFile) {
       return res.status(400).json({ error: 'Category, name and image are required' });
     }
 
     const result = await cloudinaryUpload(imageFile.buffer);
-    console.log('Cloudinary: ', result)
     const newClothing = new Clothing({
       user: req.user.id,
       category,
@@ -50,7 +46,6 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
     await newClothing.save();
     res.status(201).json(newClothing);
   } catch (error) {
-    console.error('Error:', error)
     res.status(500).json({ error: 'Error adding clothing item' });
   }
 });
