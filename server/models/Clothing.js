@@ -18,7 +18,10 @@ const clothingSchema = new mongoose.Schema({
   brand: String,
   size: String,
   color: String,
-//   image: String???,
+  image: {
+    type: String,
+    required: true,
+  },
 }, {
   timestamps: true,
   collection: "clothingDb"
