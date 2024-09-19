@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LoginForm from './Pages/LoginPage';
+import RegistrationForm from './Pages/RegisterPage';
+import ItemPage from './Pages/ItemPage';
+import ClosetPage from './Pages/ClosetPage';
+import CameraPage from './Pages/CameraPage';
 import './App.css';
-import HelloWorld from './Components/HelloWorld';
+// import Header
+// import Footer
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -20,7 +27,26 @@ const App = () => {
 
   return (
     <div className="App">
-      <HelloWorld message={data}/>
+      <Router>
+        <nav>
+          <ul>
+            <li><Link to="/">Login</Link></li>
+            <li><Link to="/register">Register</Link></li>
+            <li><Link to="/closet">Closet</Link></li>
+            <li><Link to="/camera">Add Item</Link></li>
+            <li><Link to="/item">Item</Link></li>
+          </ul>
+        </nav>
+
+          <Routes>
+            <Route exact path="/" component={LoginForm} />
+            <Route exact path="/register" component={RegistrationForm} />
+            <Route exact path="/closet" component={ClosetPage} />
+            <Route exact path="/camera" component={CameraPage} />
+            <Route exact path="/item" component={ItemPage} />
+          </Routes>
+
+      </Router>
     </div>
   );
 };
