@@ -8,7 +8,6 @@ const storage = multer.memoryStorage();
 const upload = multer({
     storage,
     fileFilter: function(req, file, cb) {
-        console.log("FILE FROM MULTER:", file)
         const filetypes = /jpeg|jpg|png|pdf/
         const mimetype = filetypes.test(file.mimetype);
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
