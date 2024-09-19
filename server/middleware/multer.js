@@ -1,9 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 
-
 const storage = multer.memoryStorage();
-
 
 const upload = multer({
     storage,
@@ -15,7 +13,7 @@ const upload = multer({
         if (mimetype && extname) {
             return cb(null, true);
         } else {
-            cb('Error!!! WITH MULTER or file type not supported')
+            cb('Error!')
         }
     }
 })
