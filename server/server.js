@@ -21,6 +21,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
@@ -37,7 +38,6 @@ app.get('/api/data', (req, res) => {
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
