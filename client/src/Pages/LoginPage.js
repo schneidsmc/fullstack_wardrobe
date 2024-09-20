@@ -1,14 +1,16 @@
-import React from 'react';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import React from "react";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 // // Validation schema using Yup - move to utils folder later
 
 const validationSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email address').required('Email is required'),
-  password: Yup.string().required('Password is required')
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string().required("Password is required"),
 });
 
 const LoginForm = () => {
@@ -20,16 +22,16 @@ const LoginForm = () => {
 
           <Formik
             initialValues={{
-              email: '',
-              password: ''
+              email: "",
+              password: "",
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              // Simulate an API call 
+              // Simulate an API call
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));  
-                resetForm(); 
-                setSubmitting(false);  
+                alert(JSON.stringify(values, null, 2));
+                resetForm();
+                setSubmitting(false);
               }, 1000);
             }}
           >
@@ -40,10 +42,9 @@ const LoginForm = () => {
               values,
               touched,
               isSubmitting,
-              errors
+              errors,
             }) => (
               <Form noValidate onSubmit={handleSubmit}>
-                
                 {/* Email field */}
                 <Form.Group controlId="formEmail" className="mb-3">
                   <Form.Label>Email</Form.Label>
@@ -85,7 +86,7 @@ const LoginForm = () => {
                   className="w-100"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? 'Logging in...' : 'Login'}
+                  {isSubmitting ? "Logging in..." : "Login"}
                 </Button>
               </Form>
             )}
@@ -94,6 +95,6 @@ const LoginForm = () => {
       </Row>
     </Container>
   );
-}
+};
 
 export default LoginForm;

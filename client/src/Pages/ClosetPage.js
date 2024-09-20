@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ClosetPage = () => {
-  return (
-    <div>ClosetPage</div>
-  )
-}
+  return <div>ClosetPage</div>;
+};
 
-export default ClosetPage
+export default ClosetPage;
