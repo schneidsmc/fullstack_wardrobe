@@ -13,9 +13,8 @@ import './App.css';
 
 const App = () => {
   const [data, setData] = useState(null);
-
   useEffect(() => {
-    axios.get('/api/data')
+    axios.get('/')
     .then(response => {
       console.log(response.data)
       setData(response.data.message);
@@ -39,11 +38,11 @@ const App = () => {
         </nav>
 
           <Routes>
-            <Route exact path="/" component={LoginForm} />
-            <Route exact path="/register" component={RegistrationForm} />
-            <Route exact path="/closet" component={ClosetPage} />
-            <Route exact path="/camera" component={CameraPage} />
-            <Route exact path="/item" component={ItemPage} />
+            <Route path="/" element={< LoginForm />} />
+            <Route path="/register" element={< RegistrationForm />} />
+            <Route path="/closet" element={< ClosetPage />} />
+            <Route path="/camera" element={< CameraPage />} />
+            <Route path="/item" element={< ItemPage />} />
           </Routes>
 
       </Router>
