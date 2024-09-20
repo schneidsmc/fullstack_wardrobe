@@ -1,67 +1,66 @@
 /* Base colors */
 :root {
-    --primary-color: #6f42c1;
-    --secondary-color: #e9ecef; 
-    --text-light: #ffffff; 
-  }
-  
-  /* Navbar styles */
-  .navbar-dark .navbar-brand {
-    color: var(--text-light);
-    font-size: 1.25rem;
-    font-weight: bold;
-  }
-  
-  .logo-img {
-    height: 40px;
-    margin-right: 0.5rem;
-    color:#f1f1f1
-  }
-  
-  /* Hero section styles */
-  .hero-section {
-    background: linear-gradient(to right, #6f42c1, #e5a2d3);
-    padding: 4rem 0;
-  }
-  
-  .hero-section h1 {
-    font-size: 3rem;
-    font-weight: 700;
-  }
-  
-  .hero-section p {
-    font-size: 1.25rem;
-    font-weight: 300;
-  }
-  
-  .btn-light {
-    background-color: var(--text-light);
-    color: var(--primary-color);
-    border: none;
-  }
-  
-  .btn-light:hover {
-    background-color: #f1f1f1;
-    color: var(--primary-color);
-  }
-  
-  /* Card styles */
-  .card {
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card-title {
-    color: var(--primary-color);
-  }
-  
-  /* Footer styles */
-  .footer {
-    background-color: #343a40;
-  }
-  
+  --primary-color: #6f42c1;
+  --secondary-color: #e9ecef;
+  --text-light: #ffffff;
+}
+
+/* Navbar styles */
+.navbar-dark .navbar-brand {
+  color: var(--text-light);
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.logo-img {
+  height: 40px;
+  margin-right: 0.5rem;
+  color: #f1f1f1;
+}
+
+/* Hero section styles */
+.hero-section {
+  background: linear-gradient(to right, #6f42c1, #e5a2d3);
+  padding: 4rem 0;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero-section p {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.btn-light {
+  background-color: var(--text-light);
+  color: var(--primary-color);
+  border: none;
+}
+
+.btn-light:hover {
+  background-color: #f1f1f1;
+  color: var(--primary-color);
+}
+
+/* Card styles */
+.card {
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  color: var(--primary-color);
+}
+
+/* Footer styles */
+.footer {
+  background-color: #343a40;
+}

@@ -1,18 +1,31 @@
-import React from 'react';
-import { Container, Navbar, Nav, Row, Col, Button, Card, Image } from 'react-bootstrap';
-import "./ComponentStyling/HelloWorld.css"
+import React from "react";
+import {
+  Container,
+  Navbar,
+  Nav,
+  Row,
+  Col,
+  Button,
+  Card,
+  Image,
+} from "react-bootstrap";
+import "./ComponentStyling/HelloWorld.css";
 
 const HelloWorld = () => {
-    const handleGetStartedClick = () => {
-        console.log('Get Started button clicked!');
-    };
-    
+  const handleGetStartedClick = () => {
+    console.log("Get Started button clicked!");
+  };
+
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
         <Container>
           <Navbar.Brand href="#home">
-            <img src="/wardrobe.png" alt="Outfit Planner Logo" className="logo-img" />
+            <img
+              src="/wardrobe.png"
+              alt="Outfit Planner Logo"
+              className="logo-img"
+            />
             Outfit Planner
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -32,7 +45,14 @@ const HelloWorld = () => {
           <p className="lead mb-4">
             Effortlessly plan and organize your outfits with our intuitive app.
           </p>
-          <Button variant="light" size="lg" href="#get-started" onClick={handleGetStartedClick} >Get Started</Button>
+          <Button
+            variant="light"
+            size="lg"
+            href="#get-started"
+            onClick={handleGetStartedClick}
+          >
+            Get Started
+          </Button>
         </Container>
       </Container>
 
@@ -42,9 +62,11 @@ const HelloWorld = () => {
           <Col md={4}>
             <Card className="text-center mb-4 border-0 shadow-sm">
               <Card.Body>
-                <Card.Title className="font-weight-bold">Clothing Catalog</Card.Title>
+                <Card.Title className="font-weight-bold">
+                  Clothing Catalog
+                </Card.Title>
                 <Card.Text>
-                Create a digital catalog of your clothing items 
+                  Create a digital catalog of your clothing items
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -52,17 +74,19 @@ const HelloWorld = () => {
           <Col md={4}>
             <Card className="text-center mb-4 border-0 shadow-sm">
               <Card.Body>
-                <Card.Title className="font-weight-bold">Mix and Match</Card.Title>
-                <Card.Text>
-                  Virtually create and save outfits
-                </Card.Text>
+                <Card.Title className="font-weight-bold">
+                  Mix and Match
+                </Card.Title>
+                <Card.Text>Virtually create and save outfits</Card.Text>
               </Card.Body>
             </Card>
           </Col>
           <Col md={4}>
             <Card className="text-center mb-4 border-0 shadow-sm">
               <Card.Body>
-                <Card.Title className="font-weight-bold">Organizational Tags</Card.Title>
+                <Card.Title className="font-weight-bold">
+                  Organizational Tags
+                </Card.Title>
                 <Card.Text>
                   Categorize items by type, color, seasonality, and occasion
                 </Card.Text>
@@ -74,7 +98,9 @@ const HelloWorld = () => {
 
       <footer className="footer bg-dark text-white text-center py-3">
         <Container>
-          <p className="mb-0">&copy; 2024 Outfit Planner. All rights reserved.</p>
+          <p className="mb-0">
+            &copy; 2024 Outfit Planner. All rights reserved.
+          </p>
         </Container>
       </footer>
     </>
