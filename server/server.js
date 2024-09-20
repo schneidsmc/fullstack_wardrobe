@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename)
 
 // Mongoose
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => console.log('Connected to MongoDB at:', mongoose.connection.name))
   .catch(err => console.error('Could not connect to MongoDB:', err));
 
 // Middleware

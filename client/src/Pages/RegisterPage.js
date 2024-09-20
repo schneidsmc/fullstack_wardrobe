@@ -38,16 +38,22 @@ const RegistrationForm = () => {
             validationSchema={validationSchema} //links Yup validation
             onSubmit={(values, { setSubmitting, resetForm }) => {
               const userData = {
-                name: `${values.firstName} + ${values.lastName}`,
+                name: values.firstName,
                 email: values.email,
                 password: values.password,
               };
               axios
                 .post("/api/users/registration", userData)
-                .then((response) => "");
-              resetForm().catch((error) => {
+                .then((response) => {
+                  console.log("User Registered Successss!:", response.data);
+                  resetForm();
+                })
+              .catch((error) => {
                 console.error("Whoop! Dont work", error);
-              });
+              })
+              .finally(() => {
+                setSubmitting(false)
+              })
               // Simulates API call
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
