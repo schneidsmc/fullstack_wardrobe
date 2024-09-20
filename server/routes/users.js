@@ -5,7 +5,7 @@ import { generateToken } from '../utils/auth.js';
 const router = express.Router();
 
 // POST user
-router.post('/signup', async (req, res) => {
+router.post('/registration', async (req, res) => {
   try {
     // console.log('Signup request:', req.body);
 
