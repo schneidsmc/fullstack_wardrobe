@@ -11,9 +11,9 @@ import {
   ModalBody,
 } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
-// import axios from 'axios';
+import axios from 'axios';
 import * as Yup from "yup";
-// import { SchemaTypeOptions } from 'mongoose';
+
 
 const validationSchema = Yup.object().shape({
   category: Yup.string().required("Selection is required"),
@@ -33,7 +33,7 @@ const capture = () => {
     setImageSrc(imageSrc);
     setItemModal(true);
     if (imageSrc) {
-      console.log(imageSrc); // Display the photo in the console
+      console.log('Photo Captured!'); // Display the photo in the console
     }
   };
 
@@ -82,18 +82,43 @@ const handleCloseModal = (resetForm) => {
               color: "",
               brand: "",
             }}
-            onSubmit={(values, {resetForm}) =>{
+            onSubmit={async (values, {resetForm}) =>{
               console.log(values);
+              const itemData = new FormData();
+                itemData.append('category', values.category);
+                itemData.append('size', values.size);
+                itemData.append('color', values.color);
+                itemData.append('brand', values.brand);
+                itemData.append('image', imageSrc);
+              try {
+                const token = localStorage.getItem('token')
+                console.log("GETTING TOKEN FROM LOCAL STORAGE:",token)
+                const response = await axios.post(
+                  '/api/upload', itemData,
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${token}`,
+                      'Content-Type': 'multipart/form-data'
+                    }
+                  }
+                )
+                console.log('Item LOGGED!:', response.data);
+                resetForm()
+              } catch (error) {
+                console.error('Error loggin item:', error)
+              }
               handleCloseModal(resetForm);
             }}
-            validate={validationSchema}
+            validationSchema={validationSchema}
           >
             {({ resetForm }) => (
+            // CATEGORY
               <Form>
                 <label htmlFor="category">Category</label>
                 <Field
                   as="select"
                   id="category"
+                  name="category"
                   className="form-control"
                   placeholder="Select an Option"
                 >
@@ -101,7 +126,7 @@ const handleCloseModal = (resetForm) => {
                   <option value="tops" label="Tops">
                     Tops
                   </option>
-                  <option value="tottoms" label="Bottoms">
+                  <option value="bottoms" label="Bottoms">
                     Bottoms
                   </option>
                   <option value="accesories" label="Accessories">
@@ -111,7 +136,76 @@ const handleCloseModal = (resetForm) => {
                     Shoes
                   </option>
                 </Field>
-                <button type="submit">Submit</button>
+                {/* SIZE FIELD */}
+                <label htmlFor="size">Size</label>
+                <Field
+                  as="select"
+                  id="size"
+                  name="size"
+                  className="form-control"
+                  placeholder="Select an Option"
+                >
+                  <option value="" label="Select an Option"></option>
+                  <option value="small" label="Small">
+                    Tops
+                  </option>
+                  <option value="medium" label="Medium">
+                    Bottoms
+                  </option>
+                  <option value="large" label="Large">
+                    Acessories
+                  </option>
+                  <option value="xlarge" label="XL">
+                    Shoes
+                  </option>
+                </Field>
+                {/* COLOR FIELD */}
+                <label htmlFor="color">Color</label>
+                <Field
+                  as="select"
+                  id="color"
+                  name="color"
+                  className="form-control"
+                  placeholder="Select an Option"
+                >
+                  <option value="" label="Select an Option"></option>
+                  <option value="blue" label="Blue">
+                    Tops
+                  </option>
+                  <option value="red" label="Red">
+                    Bottoms
+                  </option>
+                  <option value="orange" label="Orange">
+                    Acessories
+                  </option>
+                  <option value="purple" label="Purple">
+                    Shoes
+                  </option>
+                </Field>
+                {/* BRAND */}
+                <label htmlFor="brand">Brand</label>
+                <Field
+                  as="select"
+                  id="brand"
+                  name="brand"
+                  className="form-control"
+                  placeholder="Select an Option"
+                >
+                  <option value="" label="Select an Option"></option>
+                  <option value="rei" label="REI">
+                    Tops
+                  </option>
+                  <option value="gap" label="Gap">
+                    Bottoms
+                  </option>
+                  <option value="duluth" label="DuluthTrading">
+                    Acessories
+                  </option>
+                  <option value="target" label="Target">
+                    Shoes
+                  </option>
+                </Field>
+                <button type="submit" >Submit</button>
                 <button type="button" onClick={() => handleCloseModal(resetForm)}>
                   Reset
                 </button>
