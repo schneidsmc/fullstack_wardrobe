@@ -19,6 +19,9 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB at:', mongoose.connection.name))
   .catch(err => console.error('Could not connect to MongoDB:', err));
 
+  mongoose.set('debug', true);
+
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))

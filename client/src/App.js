@@ -17,7 +17,6 @@ const App = () => {
     axios
       .get("/api/data")
       .then((response) => {
-        console.log(response.data);
         setData(response.data.message);
       })
       .catch((error) => {
