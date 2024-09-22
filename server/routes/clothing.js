@@ -60,7 +60,7 @@ router.post(
   },
 );
 
-router.get("/", authenticateToken, async (req, res) => {
+router.get("/clothing", authenticateToken, async (req, res) => {
   try {
     const clothes = await Clothing.find({ user: req.user.id });
     res.json(clothes);
