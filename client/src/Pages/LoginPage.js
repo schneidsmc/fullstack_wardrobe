@@ -14,33 +14,33 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-  const handleLogin = async (values, { setSubmitting, resetForm}) => {
-    try{
+  const handleLogin = async (values, { setSubmitting, resetForm }) => {
+    try {
       // Update Fetch url after deployment
-      const response = await fetch('http://localhost:5001/api/users/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5001/api/users/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(values)
+        body: JSON.stringify(values),
       });
       const data = await response.json();
 
       if (!response.ok) {
-        alert(`NOPE!: ${data.error}`)
+        alert(`NOPE!: ${data.error}`);
       } else {
         alert("LOGGGED INNN!!!!");
         console.log(data.token);
         // IDK a better way to save the token?? This seems like the easiest way to make it persist for meow
-        localStorage.setItem('token', data.token)
+        localStorage.setItem("token", data.token);
         resetForm();
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <Container>

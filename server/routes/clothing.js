@@ -32,8 +32,10 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
     if (!category || !imageFile) {
       return res.status(400).json({ error: 'Category and image are required' });
     }
-
+    console.log('userID:', req.user.id)
+console.log('Console right before cloudinary:', imageFile, req.body)
     const result = await cloudinaryUpload(imageFile.buffer);
+    console.log('CLOUDINARY URL', result)
     const newClothing = new Clothing({
       user: req.user.id,
       category,
@@ -42,10 +44,12 @@ router.post('/', authenticateToken, upload.single('image'), async (req, res) => 
       color,
       image: result.secure_url
     });
-
-    await newClothing.save();
+console.log('NEW CLOTHING', newClothing)
+    await newClothing.save()
+    .then(() => {
+      console.log('clothing item saved to MONGO:', newClothing)
+    })
     res.status(201).json(newClothing);
-    console.log('Clothing item saved:', newClothing)
   } catch (error) {
     res.status(500).json({ error: 'Error adding clothing item' });
   }

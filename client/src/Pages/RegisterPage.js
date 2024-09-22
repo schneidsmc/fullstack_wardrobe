@@ -48,12 +48,12 @@ const RegistrationForm = () => {
                   console.log("User Registered Successss!:", response.data);
                   resetForm();
                 })
-              .catch((error) => {
-                console.error("Whoop! Dont work", error);
-              })
-              .finally(() => {
-                setSubmitting(false)
-              })
+                .catch((error) => {
+                  console.error("Whoop! Dont work", error);
+                })
+                .finally(() => {
+                  setSubmitting(false);
+                });
               // Simulates API call
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));

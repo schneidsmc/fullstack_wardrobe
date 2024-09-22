@@ -11,9 +11,8 @@ import {
   ModalBody,
 } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
-import axios from 'axios';
+import axios from "axios";
 import * as Yup from "yup";
-
 
 const validationSchema = Yup.object().shape({
   category: Yup.string().required("Selection is required"),
@@ -28,21 +27,31 @@ const CameraPage = () => {
   const [itemModal, setItemModal] = useState(false);
   // Reference to the webcam component
 
-const capture = () => {
+  const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot(); // Capture image
     setImageSrc(imageSrc);
     setItemModal(true);
     if (imageSrc) {
-      console.log('Photo Captured!'); // Display the photo in the console
+      console.log("Photo Captured!"); // Display the photo in the console
     }
   };
 
-const handleCloseModal = (resetForm) => {
-  setItemModal(false);
-  resetForm();
-  setImageSrc(null)
-}  
-
+  const handleCloseModal = (resetForm) => {
+    setItemModal(false);
+    resetForm();
+    setImageSrc(null);
+  };
+  function dataURLtoBlob(dataurl) {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime }, "image.png");
+  }
   return (
     <Container>
       <Row className="justify-content-md-center mt-5">
@@ -53,7 +62,7 @@ const handleCloseModal = (resetForm) => {
           <Webcam
             audio={false}
             ref={webcamRef}
-            screenshotFormat="image/jpeg"
+            screenshotFormat="jpg"
             width="100%"
             videoConstraints={{
               width: 1280,
@@ -82,37 +91,41 @@ const handleCloseModal = (resetForm) => {
               color: "",
               brand: "",
             }}
-            onSubmit={async (values, {resetForm}) =>{
+            validationSchema={validationSchema}
+            onSubmit={async (values, { resetForm }) => {
               console.log(values);
               const itemData = new FormData();
-                itemData.append('category', values.category);
-                itemData.append('size', values.size);
-                itemData.append('color', values.color);
-                itemData.append('brand', values.brand);
-                itemData.append('image', imageSrc);
-              try {
-                const token = localStorage.getItem('token')
-                console.log("GETTING TOKEN FROM LOCAL STORAGE:",token)
-                const response = await axios.post(
-                  '/api/upload', itemData,
-                  {
-                    headers: {
-                      'Authorization': `Bearer ${token}`,
-                      'Content-Type': 'multipart/form-data'
-                    }
-                  }
-                )
-                console.log('Item LOGGED!:', response.data);
-                resetForm()
-              } catch (error) {
-                console.error('Error loggin item:', error)
+              itemData.append("category", values.category);
+              itemData.append("size", values.size);
+              itemData.append("color", values.color);
+              itemData.append("brand", values.brand);
+              if (imageSrc) {
+                const imageBlob = dataURLtoBlob(imageSrc);
+                itemData.append("image", imageBlob, "image.jpg");
               }
-              handleCloseModal(resetForm);
+              try {
+                const token = localStorage.getItem("token");
+                console.log("GETTING TOKEN FROM LOCAL STORAGE:", token);
+                // for (let [key, value] of itemData.entries()) {
+                //   console.log(key, value);
+                // }
+                const response = await axios.post("/api/upload", itemData, {
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                  }
+                });
+                console.log('ITEM LOGGED:', response)
+                resetForm();
+              } catch (error) {
+                console.error('Error loggin item', error)
+              } finally {
+                handleCloseModal(resetForm)
+              }
             }}
-            validationSchema={validationSchema}
-          >
+              >
             {({ resetForm }) => (
-            // CATEGORY
+              // CATEGORY
               <Form>
                 <label htmlFor="category">Category</label>
                 <Field
@@ -205,8 +218,11 @@ const handleCloseModal = (resetForm) => {
                     Shoes
                   </option>
                 </Field>
-                <button type="submit" >Submit</button>
-                <button type="button" onClick={() => handleCloseModal(resetForm)}>
+                <button type="submit">Submit</button>
+                <button
+                  type="button"
+                  onClick={() => handleCloseModal(resetForm)}
+                >
                   Reset
                 </button>
               </Form>
