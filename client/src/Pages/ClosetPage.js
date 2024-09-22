@@ -41,8 +41,8 @@ const ClosetPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>
+    <div className="container mt-5">
+      <h1 className="text-center mb-4">
         {/* {userName}'s Closet */}
         CLOSET
       </h1>
