@@ -111,19 +111,19 @@ const CameraPage = () => {
                 // }
                 const response = await axios.post("/api/upload", itemData, {
                   headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'multipart/form-data'
-                  }
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                  },
                 });
-                console.log('ITEM LOGGED:', response)
+                console.log("ITEM LOGGED:", response);
                 resetForm();
               } catch (error) {
-                console.error('Error loggin item', error)
+                console.error("Error loggin item", error);
               } finally {
-                handleCloseModal(resetForm)
+                handleCloseModal(resetForm);
               }
             }}
-              >
+          >
             {({ resetForm }) => (
               // CATEGORY
               <Form>
