@@ -6,9 +6,10 @@ import routes from "./routes/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
-dotenv.config();
+dotenv.config({path: '../.env'});
 
 const app = express();
+const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;
 const PORT = process.env.PORT || 5001;
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: `http://localhost:${FRONTEND_PORT}`,
     credentials: true,
   }),
 );
