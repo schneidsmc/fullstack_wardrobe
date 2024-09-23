@@ -9,6 +9,7 @@ import {
   Card,
   Image,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./ComponentStyling/HelloWorld.css";
 
 const HelloWorld = () => {
@@ -18,33 +19,13 @@ const HelloWorld = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
-        <Container>
-          <Navbar.Brand href="#home">
-            <img
-              src="/wardrobe.png"
-              alt="Outfit Planner Logo"
-              className="logo-img"
-            />
-            Outfit Planner
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ml-auto">
-              <Nav.Link href="#features">Features</Nav.Link>
-              <Nav.Link href="#about">About</Nav.Link>
-              <Nav.Link href="#contact">Contact</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
       <Container fluid className="hero-section text-center text-white">
         <Container>
           <h1 className="display-3">Your Ultimate Outfit Planner</h1>
           <p className="lead mb-4">
             Effortlessly plan and organize your outfits with our intuitive app.
           </p>
+          <Link to="/register">
           <Button
             variant="light"
             size="lg"
@@ -53,6 +34,7 @@ const HelloWorld = () => {
           >
             Get Started
           </Button>
+          </Link>
         </Container>
       </Container>
 

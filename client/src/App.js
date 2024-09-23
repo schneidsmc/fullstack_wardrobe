@@ -8,7 +8,8 @@ import ItemPage from "./Pages/ItemPage";
 import ClosetPage from "./Pages/ClosetPage";
 import CameraPage from "./Pages/add-item";
 import "./App.css";
-// import Header
+import Header from "./Components/Header";
+import HelloWorld from "./Components/HelloWorld";
 // import Footer
 
 const App = () => {
@@ -26,29 +27,11 @@ const App = () => {
 
   return (
     <div className="App">
+      <Header />
       <Router>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Login</Link>
-            </li>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-            <li>
-              <Link to="/closet">Closet</Link>
-            </li>
-            <li>
-              <Link to="/camera">Add Item</Link>
-            </li>
-            <li>
-              <Link to="/item">Item</Link>
-            </li>
-          </ul>
-        </nav>
-
         <Routes>
-          <Route path="/" element={<LoginForm />} />
+          <Route path="/" element={<HelloWorld />} />
+          <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/closet" element={<ClosetPage />} />
           <Route path="/camera" element={<CameraPage />} />

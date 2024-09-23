@@ -22,7 +22,7 @@ const cloudinaryUpload = (buffer) => {
     streamifier.createReadStream(buffer).pipe(stream);
   });
 };
-
+// Add Item
 router.post(
   "/",
   authenticateToken,
@@ -59,8 +59,8 @@ router.post(
     }
   },
 );
-
-router.get("/", authenticateToken, async (req, res) => {
+// CLOSET PAGE CLOTHES
+router.get("/clothing", authenticateToken, async (req, res) => {
   try {
     const clothes = await Clothing.find({ user: req.user.id });
     res.json(clothes);
