@@ -1,0 +1,21 @@
+{
+  "name": "fullstack_wardrobe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "i": "npm install --prefix client && npm install --prefix server",
+    "start": "concurrently \"npm start --prefix client\" \"npm run dev --prefix server\"",
+    "start-client": "npm run start --prefix client",
+    "start-server": "npm run dev --prefix server",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.0.1",
+    "prettier": "^3.3.3"
+  }
+}
