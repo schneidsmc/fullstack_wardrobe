@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "npm install --prefix client && npm install --prefix server",
-    "install-server": "npm install --prefix server",
     "deploy": "concurrently \"npm start --prefix client\" \"npm run start --prefix server\"",
-    "start": "concurrently \"npm start --prefix client\" \"npm run build --prefix client\" \"npm run dev --prefix server\"",
+    "start": "concurrently \"npm start --prefix client\" \"npm run build --prefix client\" \"npm run start --prefix server\"",
     "start-client": "npm run start --prefix client",
     "start-server": "npm run start --prefix server",
     "format": "prettier --write ."
