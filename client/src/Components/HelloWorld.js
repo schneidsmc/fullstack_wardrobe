@@ -9,6 +9,7 @@ import {
   Card,
   Image,
 } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./ComponentStyling/HelloWorld.css";
 
 const HelloWorld = () => {
@@ -24,6 +25,7 @@ const HelloWorld = () => {
           <p className="lead mb-4">
             Effortlessly plan and organize your outfits with our intuitive app.
           </p>
+          <Link to="/register">
           <Button
             variant="light"
             size="lg"
@@ -32,6 +34,7 @@ const HelloWorld = () => {
           >
             Get Started
           </Button>
+          </Link>
         </Container>
       </Container>
 
