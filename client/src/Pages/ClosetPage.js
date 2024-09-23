@@ -50,7 +50,9 @@ const ClosetPage = () => {
       </h1>
       <div className="text-center">
         <Link to="/camera">
-          <Button variant="primary" className="mb-3">Add Item</Button>
+          <Button variant="primary" className="mb-3">
+            Add Item
+          </Button>
         </Link>
       </div>
       <ul>
@@ -62,18 +64,20 @@ const ClosetPage = () => {
               <p>Size: {item.size}</p>
               <p>Color: {item.color}</p>
               <div className="card"></div>
-                <img
-                  src={item.image}
-                  alt={`${item.category} ${item.brand} ${item.color}`}
-                  className="card-img-top"
-                  style={{ height: '200px', objectFit: 'cover' }}
+              <img
+                src={item.image}
+                alt={`${item.category} ${item.brand} ${item.color}`}
+                className="card-img-top"
+                style={{ height: "200px", objectFit: "cover" }}
               />
               <div className="card-body"></div>
               <p className="card-text">
-                    <strong>Category:</strong> {item.category}<br />
-                    <strong>Size:</strong> {item.size}<br />
-                    <strong>Color:</strong> {item.color}
-                    <strong>Brand:</strong> {item.color}
+                <strong>Category:</strong> {item.category}
+                <br />
+                <strong>Size:</strong> {item.size}
+                <br />
+                <strong>Color:</strong> {item.color}
+                <strong>Brand:</strong> {item.color}
               </p>
             </li>
           ))

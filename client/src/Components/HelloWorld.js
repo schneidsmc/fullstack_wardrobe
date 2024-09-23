@@ -26,14 +26,14 @@ const HelloWorld = () => {
             Effortlessly plan and organize your outfits with our intuitive app.
           </p>
           <Link to="/register">
-          <Button
-            variant="light"
-            size="lg"
-            href="#get-started"
-            onClick={handleGetStartedClick}
-          >
-            Get Started
-          </Button>
+            <Button
+              variant="light"
+              size="lg"
+              href="#get-started"
+              onClick={handleGetStartedClick}
+            >
+              Get Started
+            </Button>
           </Link>
         </Container>
       </Container>
