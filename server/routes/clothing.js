@@ -37,10 +37,10 @@ router.post(
           .status(400)
           .json({ error: "Category and image are required" });
       }
-      console.log("userID:", req.user.id);
-      console.log("Console right before cloudinary:", imageFile, req.body);
+      // console.log("userID:", req.user.id);
+      // console.log("Console right before cloudinary:", imageFile, req.body);
       const result = await cloudinaryUpload(imageFile.buffer);
-      console.log("CLOUDINARY URL", result);
+      // console.log("CLOUDINARY URL", result);
       const newClothing = new Clothing({
         user: req.user.id,
         category,
@@ -49,9 +49,9 @@ router.post(
         color,
         image: result.secure_url,
       });
-      console.log("NEW CLOTHING", newClothing);
+      // console.log("NEW CLOTHING", newClothing);
       await newClothing.save().then(() => {
-        console.log("clothing item saved to MONGO:", newClothing);
+        // console.log("clothing item saved to MONGO:", newClothing);
       });
       res.status(201).json(newClothing);
     } catch (error) {
