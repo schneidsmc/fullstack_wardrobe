@@ -11,6 +11,7 @@ const ClosetPage = () => {
   // FETCH
   const getItems = async () => {
     try {
+            // Update Fetch url after deployment
       const response = await axios.get("/api/upload/clothing", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
