@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Col, Row, Card, Modal } from "react-bootstrap";
 import axios from "axios";
 
 const ClosetPage = () => {
   // holding items and user name in state
   const [clothingItems, setClothingItems] = useState([]);
   // const [userName, setUserName] = useState("");
+  const [showModal, setShowModal] = useState(false); //state for showing the modal
+  const [selectedItem, setSelectedItem] = useState(null);
 
   // FETCH
   const getItems = async () => {
@@ -42,6 +44,34 @@ const ClosetPage = () => {
     // getUserDetails();
   }, []);
 
+  const handleCardClick =(item) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+    setSelectedItem(null);
+  };
+
+  //Delete item - failing
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      // Remove deleted item from state
+      setClothingItems(clothingItems.filter(item => item._id !== selectedItem._id));
+      handleClose(); // Close the modal
+    } catch (error) {
+      console.error("Failed to delete item", error);
+    }
+  };
+
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">
@@ -55,38 +85,66 @@ const ClosetPage = () => {
           </Button>
         </Link>
       </div>
-      <ul>
+      <Row>
         {Array.isArray(clothingItems) && clothingItems.length > 0 ? (
           clothingItems.map((item) => (
-            <li key={item._id}>
-              <p>Category: {item.category}</p>
-              <p>Brand: {item.brand}</p>
-              <p>Size: {item.size}</p>
-              <p>Color: {item.color}</p>
-              <div className="card"></div>
-              <img
-                src={item.image}
+            <Col key={item._id}  xs={3} sm={4} md={3} className="mb-4">
+              <Card style={{ width: "100px", height: "100px", cursor: "pointer"}}
+                onClick={() => handleCardClick(item)}
+              >
+              <Card.Img
+                src={item.image} 
                 alt={`${item.category} ${item.brand} ${item.color}`}
                 className="card-img-top"
-                style={{ height: "200px", objectFit: "cover" }}
+                style={{width: "100%", height: "100px", objectFit: "cover" }}
               />
-              <div className="card-body"></div>
-              <p className="card-text">
-                <strong>Category:</strong> {item.category}
-                <br />
-                <strong>Size:</strong> {item.size}
-                <br />
-                <strong>Color:</strong> {item.color}
-                <strong>Brand:</strong> {item.color}
-              </p>
-            </li>
-          ))
+              </Card>
+              </Col>
+                ))
         ) : (
           <div className="col-12">
             <p className="text-center">YOU GOT NO CLOTHES</p>
           </div>
         )}
-      </ul>
+      </Row>
+            {/* Modal time baby*/}
+            {selectedItem && (
+              <Modal show={showModal} onHide={handleClose} centered>
+                 <Modal.Header closeButton>
+                 <Modal.Title>Item Details</Modal.Title>
+                 </Modal.Header>
+                 <Modal.Body>
+            <Card>
+              <Card.Img
+                variant="top"
+                src={selectedItem.image}
+                alt={`${selectedItem.category} ${selectedItem.brand} ${selectedItem.color}`}
+                style={{ height: "250px", objectFit: "cover" }}
+              />
+              <Card.Body>
+              <Card.Text style={{ fontSize: "14px" }}>
+                <strong>Category:</strong> {selectedItem.category}
+                <br />
+                <strong>Size:</strong> {selectedItem.size}
+                <br />
+                <strong>Color:</strong> {selectedItem.color}
+                <br />
+                <strong>Brand:</strong> {selectedItem.brand}
+              </Card.Text>
+              </Card.Body>
+              </Card>
+              </Modal.Body>
+              <Modal.Footer>
+            <Button
+              variant="danger"
+              onClick={handleDelete}
+            >
+Delete
+            </Button>
+          </Modal.Footer>
+              </Modal>
+            )}
+
     </div>
   );
 };
