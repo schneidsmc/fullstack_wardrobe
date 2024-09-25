@@ -13,6 +13,7 @@ import {
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   category: Yup.string().required("Selection is required"),
@@ -25,7 +26,7 @@ const CameraPage = () => {
   const webcamRef = useRef(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [itemModal, setItemModal] = useState(false);
-  // Reference to the webcam component
+  const navigate = useNavigate();
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot(); // Capture image
@@ -83,7 +84,11 @@ const CameraPage = () => {
       <Modal show={itemModal} onHide={() => handleCloseModal(() => {})}>
         <ModalHeader closeButton>Add Item</ModalHeader>
         <ModalBody>
-          {imageSrc && <img src={imageSrc} alt="Captured" />}
+          {imageSrc && <img 
+            src={imageSrc} 
+            className="img-fluid"
+            alt="Captured"
+            style={{ maxWidth: "100%", height: "auto" }} />}
           <Formik
             initialValues={{
               category: "",
@@ -116,11 +121,12 @@ const CameraPage = () => {
                   },
                 });
                 console.log("ITEM LOGGED:", response);
-                resetForm();
+                navigate("/closet");
               } catch (error) {
                 console.error("Error loggin item", error);
               } finally {
                 handleCloseModal(resetForm);
+                resetForm();
               }
             }}
           >
