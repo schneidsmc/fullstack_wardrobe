@@ -148,8 +148,8 @@ const CameraPage = () => {
                   <option value="bottoms" label="Bottoms">
                     Bottoms
                   </option>
-                  <option value="accesories" label="Accessories">
-                    Acessories
+                  <option value="accessories" label="Accessories">
+                    Accessories
                   </option>
                   <option value="shoes" label="Shoes">
                     Shoes
