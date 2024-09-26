@@ -29,8 +29,8 @@ const LoginForm = () => {
       if (!response.ok) {
         alert(`NOPE!: ${data.error}`);
       } else {
-        alert("LOGGGED INNN!!!!");
-        console.log(data.token);
+        alert("LOGGED IN!");
+        // console.log(data.token);
         // IDK a better way to save the token?? This seems like the easiest way to make it persist for meow
         localStorage.setItem("token", data.token);
         resetForm();

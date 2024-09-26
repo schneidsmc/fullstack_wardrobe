@@ -98,7 +98,7 @@ const CameraPage = () => {
             }}
             validationSchema={validationSchema}
             onSubmit={async (values, { resetForm }) => {
-              console.log(values);
+              // console.log(values);
               const itemData = new FormData();
               itemData.append("category", values.category);
               itemData.append("size", values.size);
@@ -110,7 +110,7 @@ const CameraPage = () => {
               }
               try {
                 const token = localStorage.getItem("token");
-                console.log("GETTING TOKEN FROM LOCAL STORAGE:", token);
+                // console.log("GETTING TOKEN FROM LOCAL STORAGE:", token);
                 // for (let [key, value] of itemData.entries()) {
                 //   console.log(key, value);
                 // }
@@ -118,13 +118,14 @@ const CameraPage = () => {
                   headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
-                  },
+                  }
                 });
                 console.log("ITEM LOGGED:", response);
                 navigate("/closet");
               } catch (error) {
                 console.error("Error loggin item", error);
               } finally {
+                alert('Item Saved to Closet!')
                 handleCloseModal(resetForm);
                 resetForm();
               }
