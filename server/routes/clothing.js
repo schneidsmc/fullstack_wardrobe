@@ -1,27 +1,12 @@
 import express from "express";
 import Clothing from "../models/Clothing.js";
 import authenticateToken from "../middleware/authMiddleware.js";
-import cloudinary from "../utils/config.cloudinary.js";
+import {cloudinaryUpload} from "../utils/config.cloudinary.js";
 import streamifier from "streamifier";
 import upload from "../middleware/multer.js";
 
 const router = express.Router();
 
-const cloudinaryUpload = (buffer) => {
-  return new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      { resource_type: "auto" },
-      (error, result) => {
-        if (result) {
-          resolve(result);
-        } else {
-          reject(error);
-        }
-      },
-    );
-    streamifier.createReadStream(buffer).pipe(stream);
-  });
-};
 // Add Item
 router.post(
   "/",
