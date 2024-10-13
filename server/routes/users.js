@@ -1,10 +1,12 @@
 import express from "express";
 import User from "../models/User.js";
 import { generateToken } from "../utils/auth.js";
+import authenticateToken from "../middleware/authMiddleware.js"
 
 const router = express.Router();
 
 // POST user
+
 router.post("/registration", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -53,12 +55,15 @@ router.post("/login", async (req, res) => {
 });
 
 // GET ALL users
-router.get("/", async (req, res) => {
+router.get("/info", authenticateToken, async (req, res) => {
   try {
-    const users = await User.find();
-    res.json(users);
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({message: 'User Not Found'})
+    }
+    res.json(user);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching users" });
+    res.status(500).json({ error: "Server Error" });
   }
 });
 
