@@ -58,13 +58,21 @@ const ClosetPage = () => {
 
   //Delete item - failing
   const handleDelete = async () => {
+    console.log('selected item for deletions:', selectedItem)
+    console.log('selected item for deletions:', selectedItem._id)
+
+    if (!selectedItem || !selectedItem._id) {
+      console.error("no item delected or ID is missing");
+      return;
+    }
     try {
       await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      });
 
+      });
+      console.log('Deleting item with ID:', selectedItem._id);
       // Remove deleted item from state
       setClothingItems(clothingItems.filter(item => item._id !== selectedItem._id));
       handleClose(); // Close the modal
