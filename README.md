@@ -29,8 +29,6 @@
 
 </div>
 
-
-
 ## Description 🔍
 
 This is an app that facilitates wardrobe inventory management and outfit planning that will lead to increased efficiency in personal styling, thereby reducing the frequency of unnecessary clothing purchases among users.
@@ -81,7 +79,6 @@ These are the packages we installed to create this project:
 - [react-webcam](https://www.npmjs.com/package/react-webcam)
 - [streamifier](https://www.npmjs.com/package/streamifier)
 - [yup](https://www.npmjs.com/package/yup)
-
 
 ## Authors 👋🏽
 
