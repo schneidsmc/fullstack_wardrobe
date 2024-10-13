@@ -10,16 +10,16 @@ import {
   ModalHeader,
   ModalBody,
 } from "react-bootstrap";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
-  category: Yup.string().required("Selection is required"),
-  size: Yup.string().required("Input is required"),
-  color: Yup.string().required("Input is required"),
-  brand: Yup.string().required("Input is required"),
+  category: Yup.string().required("Category is required"),
+  color: Yup.string().required("Color is required"),
+  season: Yup.string().required("Season is required"),
+  occasion: Yup.string().required("Occasion is required"),
 });
 
 const CameraPage = () => {
@@ -92,18 +92,18 @@ const CameraPage = () => {
           <Formik
             initialValues={{
               category: "",
-              size: "",
               color: "",
-              brand: "",
+              season: "",
+              occasion: "",
             }}
             validationSchema={validationSchema}
             onSubmit={async (values, { resetForm }) => {
               // console.log(values);
               const itemData = new FormData();
               itemData.append("category", values.category);
-              itemData.append("size", values.size);
               itemData.append("color", values.color);
-              itemData.append("brand", values.brand);
+              itemData.append("season", values.season);
+              itemData.append("occasion", values.occasion);
               if (imageSrc) {
                 const imageBlob = dataURLtoBlob(imageSrc);
                 itemData.append("image", imageBlob, "image.jpg");
@@ -134,104 +134,99 @@ const CameraPage = () => {
             {({ resetForm }) => (
               // CATEGORY
               <Form>
-                <label htmlFor="category">Category</label>
-                <Field
-                  as="select"
-                  id="category"
-                  name="category"
-                  className="form-control"
-                  placeholder="Select an Option"
-                >
-                  <option value="" label="Select an Option"></option>
-                  <option value="tops" label="Tops">
-                    Tops
-                  </option>
-                  <option value="bottoms" label="Bottoms">
-                    Bottoms
-                  </option>
-                  <option value="accessories" label="Accessories">
-                    Accessories
-                  </option>
-                  <option value="shoes" label="Shoes">
-                    Shoes
-                  </option>
-                </Field>
-                {/* SIZE FIELD */}
-                <label htmlFor="size">Size</label>
-                <Field
-                  as="select"
-                  id="size"
-                  name="size"
-                  className="form-control"
-                  placeholder="Select an Option"
-                >
-                  <option value="" label="Select an Option"></option>
-                  <option value="small" label="Small">
-                    Tops
-                  </option>
-                  <option value="medium" label="Medium">
-                    Bottoms
-                  </option>
-                  <option value="large" label="Large">
-                    Acessories
-                  </option>
-                  <option value="xlarge" label="XL">
-                    Shoes
-                  </option>
-                </Field>
-                {/* COLOR FIELD */}
-                <label htmlFor="color">Color</label>
-                <Field
-                  as="select"
-                  id="color"
-                  name="color"
-                  className="form-control"
-                  placeholder="Select an Option"
-                >
-                  <option value="" label="Select an Option"></option>
-                  <option value="blue" label="Blue">
-                    Tops
-                  </option>
-                  <option value="red" label="Red">
-                    Bottoms
-                  </option>
-                  <option value="orange" label="Orange">
-                    Acessories
-                  </option>
-                  <option value="purple" label="Purple">
-                    Shoes
-                  </option>
-                </Field>
-                {/* BRAND */}
-                <label htmlFor="brand">Brand</label>
-                <Field
-                  as="select"
-                  id="brand"
-                  name="brand"
-                  className="form-control"
-                  placeholder="Select an Option"
-                >
-                  <option value="" label="Select an Option"></option>
-                  <option value="rei" label="REI">
-                    Tops
-                  </option>
-                  <option value="gap" label="Gap">
-                    Bottoms
-                  </option>
-                  <option value="duluth" label="DuluthTrading">
-                    Acessories
-                  </option>
-                  <option value="target" label="Target">
-                    Shoes
-                  </option>
-                </Field>
-                <button type="submit">Submit</button>
-                <button
-                  type="button"
-                  onClick={() => handleCloseModal(resetForm)}
-                >
-                  Reset
-                </button>
+                {/* Category Field */}
+                <div className="form-group">
+                  <label htmlFor="category">Category</label>
+                  <Field as="select" name="category" className="form-control">
+                    <option value="" label="Select a category" />
+                    <optgroup label="Tops">
+                      <option value="tank">Tank</option>
+                      <option value="sweater">Sweater</option>
+                      <option value="long sleeve">Long Sleeve</option>
+                      <option value="short sleeve">Short Sleeve</option>
+                      <option value="jacket">Jacket</option>
+                      <option value="tube top">Tube Top</option>
+                    </optgroup>
+                    <optgroup label="Bottoms">
+                      <option value="shorts">Shorts</option>
+                      <option value="pants">Pants</option>
+                      <option value="skirt">Skirt</option>
+                    </optgroup>
+                    <optgroup label="Shoes">
+                      <option value="heels">Heels</option>
+                      <option value="boots">Boots</option>
+                      <option value="sandals">Sandals</option>
+                      <option value="sneakers">Sneakers</option>
+                    </optgroup>
+                    <optgroup label="Accessories">
+                      <option value="necklace">Necklace</option>
+                      <option value="earrings">Earrings</option>
+                      <option value="bag">Bag</option>
+                      <option value="hat">Hat</option>
+                      <option value="scarf">Scarf</option>
+                      <option value="bracelet">Bracelet</option>
+                      <option value="ring">Rings</option>
+                      <option value="sunglasses">Sunglasses</option>
+                    </optgroup>
+                  </Field>
+                  <ErrorMessage name="category" component="div" className="text-danger" />
+                </div>
+
+                {/* Color Field */}
+                <div className="form-group">
+                  <label htmlFor="color">Color</label>
+                  <Field as="select" name="color" className="form-control">
+                    <option value="" label="Select a color" />
+                    <option value="black">Black</option>
+                    <option value="white">White</option>
+                    <option value="gray">Gray</option>
+                    <option value="red">Red</option>
+                    <option value="green">Green</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="blue">Blue</option>
+                    <option value="brown">Brown</option>
+                    <option value="pink">Pink</option>
+                    <option value="beige">Beige</option>
+                    <option value="purple">Purple</option>
+                    <option value="orange">Orange</option>
+                    <option value="gold">Gold</option>
+                    <option value="silver">Silver</option>
+                    <option value="multicolor">Multicolor</option>
+                  </Field>
+                  <ErrorMessage name="color" component="div" className="text-danger" />
+                </div>
+
+                {/* Season Field */}
+                <div className="form-group">
+                  <label htmlFor="season">Season</label>
+                  <Field as="select" name="season" className="form-control">
+                    <option value="" label="Select a season" />
+                    <option value="spring">Spring</option>
+                    <option value="summer">Summer</option>
+                    <option value="autumn">Autumn</option>
+                    <option value="winter">Winter</option>
+                  </Field>
+                  <ErrorMessage name="season" component="div" className="text-danger" />
+                </div>
+
+                {/* Occasion Field */}
+                <div className="form-group">
+                  <label htmlFor="occasion">Occasion</label>
+                  <Field as="select" name="occasion" className="form-control">
+                    <option value="" label="Select an occasion" />
+                    <option value="casual">Casual</option>
+                    <option value="formal">Formal</option>
+                    <option value="activewear">Activewear</option>
+                    <option value="vacation">Vacation</option>
+                    <option value="party">Party</option>
+                    <option value="holiday">Holiday</option>
+                  </Field>
+                  <ErrorMessage name="occasion" component="div" className="text-danger" />
+                </div>
+
+                <Button variant="primary" type="submit">
+                  Add Item
+                </Button>
               </Form>
             )}
           </Formik>

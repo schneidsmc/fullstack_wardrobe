@@ -111,10 +111,10 @@ const ClosetPage = () => {
             {/* Modal time baby*/}
             {selectedItem && (
               <Modal show={showModal} onHide={handleClose} centered>
-                 <Modal.Header closeButton>
-                 <Modal.Title>Item Details</Modal.Title>
-                 </Modal.Header>
-                 <Modal.Body>
+                <Modal.Header closeButton>
+                <Modal.Title>Item Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
             <Card>
               <Card.Img
                 variant="top"
@@ -126,11 +126,11 @@ const ClosetPage = () => {
               <Card.Text style={{ fontSize: "14px" }}>
                 <strong>Category:</strong> {selectedItem.category}
                 <br />
-                <strong>Size:</strong> {selectedItem.size}
-                <br />
                 <strong>Color:</strong> {selectedItem.color}
                 <br />
-                <strong>Brand:</strong> {selectedItem.brand}
+                <strong>Season:</strong> {selectedItem.season}
+                <br />
+                <strong>Occasion:</strong> {selectedItem.occasion}
               </Card.Text>
               </Card.Body>
               </Card>

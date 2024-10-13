@@ -2,7 +2,6 @@ import express from "express";
 import Clothing from "../models/Clothing.js";
 import authenticateToken from "../middleware/authMiddleware.js";
 import {cloudinaryUpload} from "../utils/config.cloudinary.js";
-import streamifier from "streamifier";
 import upload from "../middleware/multer.js";
 
 const router = express.Router();
@@ -14,7 +13,7 @@ router.post(
   upload.single("image"),
   async (req, res) => {
     try {
-      const { category, brand, size, color } = req.body;
+      const { category, color, season, occasion } = req.body;
       const imageFile = req.file;
 
       if (!category || !imageFile) {
@@ -29,9 +28,9 @@ router.post(
       const newClothing = new Clothing({
         user: req.user.id,
         category,
-        brand,
-        size,
         color,
+        season,
+        occasion,
         image: result.secure_url,
       });
       // console.log("NEW CLOTHING", newClothing);
