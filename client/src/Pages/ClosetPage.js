@@ -141,6 +141,8 @@ const ClosetPage = () => {
                   <strong>Season:</strong> {selectedItem.season}
                   <br />
                   <strong>Occasion:</strong> {selectedItem.occasion}
+                  <br />
+                  <strong>Tags:</strong> {selectedItem.tags?.join(',')}
                 </Card.Text>
               </Card.Body>
             </Card>

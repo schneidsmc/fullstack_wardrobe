@@ -27,6 +27,7 @@ router.post(
       // console.log("userID:", req.user.id);
       // console.log("Console right before cloudinary:", imageFile, req.body);
       const result = await cloudinaryUpload(imageFile.buffer);
+      console.log("Cloudinary Response with Tags: ", result.tags);
       // console.log("CLOUDINARY URL", result);
       const newClothing = new Clothing({
         user: req.user.id,
@@ -35,6 +36,7 @@ router.post(
         season,
         occasion,
         image: result.secure_url,
+        tags: result.tags
       });
       // console.log("NEW CLOTHING", newClothing);
       await newClothing.save().then(() => {

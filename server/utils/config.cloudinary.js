@@ -25,7 +25,11 @@ export const cloudinaryDelete = async (publicId) => {
 export const cloudinaryUpload = (buffer) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { resource_type: "auto" },
+      { resource_type: "auto",
+        // categorization: 'google_tagging',
+        // auto_tagging: 0.7,
+        // background_removal: "cloudinary_ai_bgremoval"
+      },
       (error, result) => {
         if (result) {
           resolve(result);
