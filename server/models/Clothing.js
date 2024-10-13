@@ -9,28 +9,32 @@ const clothingSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["tops", "bottoms", "accessories", "shoes"],
-      required: true,
-    },
-    size: {
-      type: String,
-      enum: ["small", "medium", "large", "xlarge"],
-      required: true,
-    },
-    brand: {
-      type: String,
-      enum: ["rei", "gap", "duluth", "target"],
+      enum: [
+        "tank", "sweater", "long sleeve", "short sleeve", "jacket", "tube top", // Tops
+        "shorts", "pants", "skirt", // Bottoms
+        "heels", "boots", "sandals", "sneakers", // Shoes
+        "necklace", "earrings", "bag", "scarf", "hat", "bracelet", "ring", "sunglasses" // Accessories
+      ],
       required: true,
     },
     color: {
       type: String,
-      enum: ["blue", "red", "orange", "purple"],
+      enum: [
+        "black", "white", "gray", "red", "green", "yellow", "blue", "brown", 
+        "pink", "beige", "purple", "orange", "gold", "silver", "multicolor"
+      ],
       required: true,
     },
-
-    // brand: String,
-    // size: String,
-    // color: String,
+    season: {
+      type: String,
+      enum: ["spring", "summer", "autumn", "winter"],
+      required: true,
+    },
+    occasion: {
+      type: String,
+      enum: ["casual", "work", "formal", "activewear", "vacation", "party", "holiday"],
+      required: true,
+    },
     image: {
       type: String,
       required: true,

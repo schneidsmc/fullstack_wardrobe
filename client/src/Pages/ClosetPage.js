@@ -6,7 +6,7 @@ import axios from "axios";
 const ClosetPage = () => {
   // holding items and user name in state
   const [clothingItems, setClothingItems] = useState([]);
-  // const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("");
   const [showModal, setShowModal] = useState(false); //state for showing the modal
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -27,22 +27,23 @@ const ClosetPage = () => {
     }
   };
 
-  //   const getUserDetails = async () => {
-  //     try {
-  //     const response = await axios.get('/api/users', {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       }
-  //     });
-  //       setUserName(response.data.name);
-  //     } catch (error) {
-  //     console.error('Cannot get user details', error)
-  //   }
-  // }
+    const getUserDetails = async () => {
+      try {
+      const response = await axios.get('/api/users/info', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        }
+      });
+      // console.log(response.data)
+        setUserName(response.data.name);
+      } catch (error) {
+      console.error('Cannot get user details', error)
+    }
+  }
 
   useEffect(() => {
     getItems();
-    // getUserDetails();
+    getUserDetails();
   }, []);
 
   const handleCardClick =(item) => {
@@ -76,8 +77,9 @@ const ClosetPage = () => {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">
-        {/* {userName}'s Closet */}
-        CLOSET
+
+        {userName}'s Closet
+        {/* CLOSET */}
       </h1>
       <div className="text-center">
         <Link to="/camera">
@@ -111,10 +113,10 @@ const ClosetPage = () => {
             {/* Modal time baby*/}
             {selectedItem && (
               <Modal show={showModal} onHide={handleClose} centered>
-                 <Modal.Header closeButton>
-                 <Modal.Title>Item Details</Modal.Title>
-                 </Modal.Header>
-                 <Modal.Body>
+                <Modal.Header closeButton>
+                <Modal.Title>Item Details</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
             <Card>
               <Card.Img
                 variant="top"
@@ -126,11 +128,11 @@ const ClosetPage = () => {
               <Card.Text style={{ fontSize: "14px" }}>
                 <strong>Category:</strong> {selectedItem.category}
                 <br />
-                <strong>Size:</strong> {selectedItem.size}
-                <br />
                 <strong>Color:</strong> {selectedItem.color}
                 <br />
-                <strong>Brand:</strong> {selectedItem.brand}
+                <strong>Season:</strong> {selectedItem.season}
+                <br />
+                <strong>Occasion:</strong> {selectedItem.occasion}
               </Card.Text>
               </Card.Body>
               </Card>
