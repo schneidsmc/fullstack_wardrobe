@@ -7,8 +7,8 @@ const ClosetPage = () => {
   // holding items and user name in state
   const [clothingItems, setClothingItems] = useState([]);
   const [userName, setUserName] = useState("");
-  const [showModal, setShowModal] = useState(false); //state for showing the modal
-  const [selectedItem, setSelectedItem] = useState(null);
+//  const [showModal, setShowModal] = useState(false); //state for showing the modal
+//  const [selectedItem, setSelectedItem] = useState(null);
 
   // FETCH
   const getItems = async () => {
@@ -46,41 +46,41 @@ const ClosetPage = () => {
     getUserDetails();
   }, []);
 
-  const handleCardClick = (item) => {
-    setSelectedItem(item);
-    setShowModal(true);
-  };
+//  const handleCardClick = (item) => {
+//    setSelectedItem(item);
+//    setShowModal(true);
+//  };
 
-  const handleClose = () => {
-    setShowModal(false);
-    setSelectedItem(null);
-  };
+//  const handleClose = () => {
+//    setShowModal(false);
+//    setSelectedItem(null);
+//  };
 
-  //Delete item - failing
-  const handleDelete = async () => {
-    console.log("selected item for deletions:", selectedItem);
-    console.log("selected item for deletions:", selectedItem._id);
+  // //Delete item - failing
+  // const handleDelete = async () => {
+  //   console.log("selected item for deletions:", selectedItem);
+  //   console.log("selected item for deletions:", selectedItem._id);
 
-    if (!selectedItem || !selectedItem._id) {
-      console.error("no item delected or ID is missing");
-      return;
-    }
-    try {
-      await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      console.log("Deleting item with ID:", selectedItem._id);
-      // Remove deleted item from state
-      setClothingItems(
-        clothingItems.filter((item) => item._id !== selectedItem._id),
-      );
-      handleClose(); // Close the modal
-    } catch (error) {
-      console.error("Failed to delete item", error);
-    }
-  };
+  //   if (!selectedItem || !selectedItem._id) {
+  //     console.error("no item delected or ID is missing");
+  //     return;
+  //   }
+  //   try {
+  //     await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     });
+  //     console.log("Deleting item with ID:", selectedItem._id);
+  //     // Remove deleted item from state
+  //     setClothingItems(
+  //       clothingItems.filter((item) => item._id !== selectedItem._id),
+  //     );
+  //     handleClose(); // Close the modal
+  //   } catch (error) {
+  //     console.error("Failed to delete item", error);
+  //   }
+  // };
 
   return (
     <div className="container mt-5">
@@ -99,17 +99,17 @@ const ClosetPage = () => {
         {Array.isArray(clothingItems) && clothingItems.length > 0 ? (
           clothingItems.map((item) => (
             <Col key={item._id} xs={3} sm={4} md={3} className="mb-4">
+              <Link to={`/closet/item/${item._id}`}>
               <Card
                 style={{ width: "100px", height: "100px", cursor: "pointer" }}
-                onClick={() => handleCardClick(item)}
               >
                 <Card.Img
                   src={item.image}
                   alt={`${item.category} ${item.brand} ${item.color}`}
-                  className="card-img-top"
                   style={{ width: "100%", height: "100px", objectFit: "cover" }}
                 />
               </Card>
+              </Link>
             </Col>
           ))
         ) : (
@@ -118,7 +118,7 @@ const ClosetPage = () => {
           </div>
         )}
       </Row>
-      {/* Modal time baby*/}
+      {/* Modal time baby
       {selectedItem && (
         <Modal show={showModal} onHide={handleClose} centered>
           <Modal.Header closeButton>
@@ -151,7 +151,7 @@ const ClosetPage = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };

@@ -36,6 +36,8 @@ const App = () => {
           <Route path="/closet" element={<ClosetPage />} />
           <Route path="/camera" element={<CameraPage />} />
           <Route path="/item" element={<ItemPage />} />
+          <Route path="/closet/item/:id" element={<ItemPage />} />
+
         </Routes>
       </Router>
     </div>
