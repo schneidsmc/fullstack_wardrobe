@@ -20,7 +20,7 @@ const ClosetPage = () => {
         },
       });
       // console.log("token", `${localStorage.getItem("token")}`);
-      // console.log("API Response:", response.data);
+      console.log("API Response:", response.data);
       setClothingItems(response.data);
     } catch (error) {
       console.error("Cannot get itmes", error);
