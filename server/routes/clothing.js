@@ -1,7 +1,10 @@
 import express from "express";
 import Clothing from "../models/Clothing.js";
 import authenticateToken from "../middleware/authMiddleware.js";
-import {cloudinaryUpload} from "../utils/config.cloudinary.js";
+import {
+  cloudinaryUpload,
+  cloudinaryDelete,
+} from "../utils/config.cloudinary.js";
 import upload from "../middleware/multer.js";
 
 const router = express.Router();
@@ -24,6 +27,7 @@ router.post(
       // console.log("userID:", req.user.id);
       // console.log("Console right before cloudinary:", imageFile, req.body);
       const result = await cloudinaryUpload(imageFile.buffer);
+      console.log("Cloudinary Response with Tags: ", result.tags);
       // console.log("CLOUDINARY URL", result);
       const newClothing = new Clothing({
         user: req.user.id,
@@ -32,6 +36,7 @@ router.post(
         season,
         occasion,
         image: result.secure_url,
+        tags: result.tags
       });
       // console.log("NEW CLOTHING", newClothing);
       await newClothing.save().then(() => {
@@ -53,6 +58,39 @@ router.get("/clothing", authenticateToken, async (req, res) => {
   }
 });
 
-// Still need Delete and Update
+// Delete Item
+router.delete("/clothing/:id", authenticateToken, async (req, res) => {
+  try {
+    const itemId = req.params.id;
+    const clothingItem = await Clothing.findById(itemId);
+    console.log("Deleting item with ItemId:", itemId);
+    if (!clothingItem) {
+      return res.status(404).json({ error: "Clothing item not found" });
+    }
+
+    if (clothingItem.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const imagePublicId = clothingItem.image.split("/").pop().split(".")[0];
+    console.log("Image Public ID:", imagePublicId);
+    try {
+      await cloudinaryDelete(imagePublicId);
+      console.log("Image deleted from Cloudinary.");
+    } catch (cloudinaryError) {
+      console.error("Cloudinary delete error:", cloudinaryError);
+      return res
+        .status(500)
+        .json({ error: "Failed to delete image from Cloudinary" });
+    }
+
+    await Clothing.findByIdAndDelete(itemId);
+    console.log("Clothing item deleted from MongoDB.");
+
+    res.status(200).json({ message: "Clothing item deleted successfully" });
+  } catch (error) {
+    console.error("error details:", error);
+    res.status(500).json({ error: "Item NOT deleted" });
+  }
+});
 
 export default router;

@@ -6,7 +6,7 @@ import routes from "./routes/index.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
-dotenv.config({path: '../.env'});
+dotenv.config({ path: "../.env" });
 
 const app = express();
 const FRONTEND_PORT = process.env.FRONTEND_PORT || 3000;

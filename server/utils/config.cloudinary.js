@@ -1,8 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
-import streamifier from "streamifier"
+import streamifier from "streamifier";
 import dotenv from "dotenv";
 
-dotenv.config({path: '../.env'});
+dotenv.config({ path: "../.env" });
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -11,10 +11,26 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+export const cloudinaryDelete = async (publicId) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.destroy(publicId, (error, result) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve(result);
+    });
+  });
+};
+
 export const cloudinaryUpload = (buffer) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { resource_type: "auto" },
+
+        { resource_type: "auto",
+        // categorization: 'google_tagging',
+        // auto_tagging: 0.7,
+        background_removal: "cloudinary_ai"
+  },
       (error, result) => {
         if (result) {
           resolve(result);
