@@ -88,7 +88,8 @@ const CameraPage = () => {
             src={imageSrc} 
             className="img-fluid"
             alt="Captured"
-            style={{ maxWidth: "100%", height: "auto" }} />}
+            style={{ maxWidth: "100%", height: "auto" }}
+            effect="" />}
           <Formik
             initialValues={{
               category: "",

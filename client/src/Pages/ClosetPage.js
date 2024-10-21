@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Row, Card, Modal } from "react-bootstrap";
 import axios from "axios";
+import SearchBar from "../Components/search-bar";
 
 const ClosetPage = () => {
   // holding items and user name in state
@@ -73,6 +74,10 @@ const ClosetPage = () => {
     }
   };
 
+  //Search
+  const handleSearch = (query) => {
+    console.log('Search query:', query);
+};
 
   return (
     <div className="container mt-5">
@@ -80,6 +85,7 @@ const ClosetPage = () => {
 
         {userName}'s Closet
         {/* CLOSET */}
+        <SearchBar onSearch={handleSearch}/>
       </h1>
       <div className="text-center">
         <Link to="/camera">
