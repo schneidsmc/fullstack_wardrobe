@@ -1,36 +1,36 @@
 import mongoose from "mongoose";
 
-
-const clothingSchema = new mongoose.Schema({
-  user: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true
+const clothingSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+    },
+    season: {
+      type: String,
+    },
+    occasion: {
+      type: String,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    tags: [String],
   },
-  category: {
-    type: String,
-    required: true
+  {
+    timestamps: true,
+    collection: "clothingDb",
   },
-  color: {
-    type: String,
-  },
-  season: {
-    type: String,
-  },
-  occasion: {
-    type: String,
-  },
-  image: {
-    type: String,
-    required: true
-  },
-  tags: [String],
-},
-{
-  timestamps: true,
-  collection: "clothingDb",
-},
-)
+);
 
 // const clothingSchema = new mongoose.Schema(
 //   {

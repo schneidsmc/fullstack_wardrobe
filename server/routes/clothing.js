@@ -1,7 +1,10 @@
 import express from "express";
 import Clothing from "../models/Clothing.js";
 import authenticateToken from "../middleware/authMiddleware.js";
-import {cloudinaryUpload, cloudinaryDelete} from "../utils/config.cloudinary.js";
+import {
+  cloudinaryUpload,
+  cloudinaryDelete,
+} from "../utils/config.cloudinary.js";
 import upload from "../middleware/multer.js";
 
 const router = express.Router();
@@ -33,7 +36,7 @@ router.post(
         season,
         occasion,
         image: result.secure_url,
-        tags: result.tags
+        tags: result.tags,
       });
       // console.log("NEW CLOTHING", newClothing);
       await newClothing.save().then(() => {
@@ -45,30 +48,21 @@ router.post(
     }
   },
 );
-// CLOSET PAGE CLOTHES
-// router.get("/clothing", authenticateToken, async (req, res) => {
-//   try {
-//     const clothes = await Clothing.find({ user: req.user.id });
-//     res.json(clothes);
-//   } catch (error) {
-//     res.status(500).json({ error: "Error fetching clothing items" });
-//   }
-// });
 
 // CLOSET PAGE CLOTHES - Search and Fetch
 router.get("/clothing", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    const searchQuery = req.query.query || ''; // Get the search query
+    const searchQuery = req.query.query || ""; // Get the search query
 
     // Filter items by search query if provided, searching in `category`, `color`, etc.
-    const filter = { 
+    const filter = {
       user: userId,
       $or: [
-        { category: { $regex: searchQuery, $options: 'i' } },
-        { color: { $regex: searchQuery, $options: 'i' } },
-        { season: { $regex: searchQuery, $options: 'i' } },
-        { occasion: { $regex: searchQuery, $options: 'i' } },
+        { category: { $regex: searchQuery, $options: "i" } },
+        { color: { $regex: searchQuery, $options: "i" } },
+        { season: { $regex: searchQuery, $options: "i" } },
+        { occasion: { $regex: searchQuery, $options: "i" } },
       ],
     };
 
@@ -84,7 +78,7 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
   try {
     const itemId = req.params.id;
     const clothingItem = await Clothing.findById(itemId);
-    console.log("Attempting to delete item with ID:", itemId);
+    // console.log("Attempting to delete item with ID:", itemId);
 
     if (!clothingItem) {
       return res.status(404).json({ error: "Clothing item not found" });
@@ -95,13 +89,15 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
     }
 
     const imagePublicId = clothingItem.image.split("/").pop().split(".")[0];
-    console.log("Image Public ID:", imagePublicId);
+    // console.log("Image Public ID:", imagePublicId);
 
     await cloudinaryDelete(imagePublicId)
       .then(() => console.log("Image deleted from Cloudinary"))
       .catch((cloudinaryError) => {
         console.error("Cloudinary delete error:", cloudinaryError);
-        return res.status(500).json({ error: "Failed to delete image from Cloudinary" });
+        return res
+          .status(500)
+          .json({ error: "Failed to delete image from Cloudinary" });
       });
 
     await Clothing.findByIdAndDelete(itemId);
