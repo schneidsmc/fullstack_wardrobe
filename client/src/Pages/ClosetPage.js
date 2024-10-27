@@ -57,27 +57,41 @@ const ClosetPage = () => {
     setSelectedItem(null);
   };
 
-  //Delete item - failing
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
 
-      // Remove deleted item from state
-      setClothingItems(clothingItems.filter(item => item._id !== selectedItem._id));
-      handleClose(); // Close the modal
-    } catch (error) {
-      console.error("Failed to delete item", error);
-    }
+
+  const handleDelete = async () => {
+      console.log("selected item for deletions:", selectedItem);
+      console.log("selected item for deletions:", selectedItem._id);
+  
+      if (!selectedItem || !selectedItem._id) {
+        console.error("no item delected or ID is missing");
+        return;
+      }
+      try {
+        const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
+        await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        console.log("Deleting item with ID:", selectedItem._id);
+        // Remove deleted item from state
+        setClothingItems(
+          clothingItems.filter((item) => item._id !== selectedItem._id),
+        );
+        handleClose(); // Close the modal
+      } catch (error) {
+        console.error("OOPE Failed to delete item", error);
+      }
+    };
+    const handleSearch = (query) => {
+      console.log('Search query:', query);
   };
 
-  //Search
-  const handleSearch = (query) => {
-    console.log('Search query:', query);
-};
 
   return (
     <div className="container mt-5">
