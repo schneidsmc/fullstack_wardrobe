@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Col, Row, Card, Modal } from "react-bootstrap";
 import axios from "axios";
+import SearchBar from "../Components/search-bar";
 
 const ClosetPage = () => {
   // holding items and user name in state
@@ -56,30 +57,53 @@ const ClosetPage = () => {
     setSelectedItem(null);
   };
 
-  //Delete item - failing
-  const handleDelete = async () => {
-    console.log("selected item for deletions:", selectedItem);
-    console.log("selected item for deletions:", selectedItem._id);
 
-    if (!selectedItem || !selectedItem._id) {
-      console.error("no item delected or ID is missing");
-      return;
-    }
-    try {
-      await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      console.log("Deleting item with ID:", selectedItem._id);
-      // Remove deleted item from state
-      setClothingItems(
-        clothingItems.filter((item) => item._id !== selectedItem._id),
-      );
-      handleClose(); // Close the modal
-    } catch (error) {
-      console.error("Failed to delete item", error);
-    }
+
+  const handleDelete = async () => {
+      console.log("selected item for deletions:", selectedItem);
+      console.log("selected item for deletions:", selectedItem._id);
+  
+      if (!selectedItem || !selectedItem._id) {
+        console.error("no item delected or ID is missing");
+        return;
+      }
+      try {
+        const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
+        await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        console.log("Deleting item with ID:", selectedItem._id);
+        // Remove deleted item from state
+        setClothingItems(
+          clothingItems.filter((item) => item._id !== selectedItem._id),
+        );
+        handleClose(); // Close the modal
+      } catch (error) {
+        console.error("OOPE Failed to delete item", error);
+      }
+    };
+    const handleSearch = async (query) => {
+      try {
+          const response = await axios.get(`/api/upload/clothing`, {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              params: {
+                  query: query, // Send the query to the backend
+              },
+          });
+          
+          // Update clothing items based on the search results
+          setClothingItems(response.data);
+      } catch (error) {
+          console.error("Error fetching search results", error);
+      }
   };
 
   return (
@@ -87,6 +111,7 @@ const ClosetPage = () => {
       <h1 className="text-center mb-4">
         {userName}'s Closet
         {/* CLOSET */}
+        <SearchBar onSearch={handleSearch}/>
       </h1>
       <div className="text-center">
         <Link to="/camera">

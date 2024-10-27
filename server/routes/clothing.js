@@ -1,10 +1,7 @@
 import express from "express";
 import Clothing from "../models/Clothing.js";
 import authenticateToken from "../middleware/authMiddleware.js";
-import {
-  cloudinaryUpload,
-  cloudinaryDelete,
-} from "../utils/config.cloudinary.js";
+import {cloudinaryUpload, cloudinaryDelete} from "../utils/config.cloudinary.js";
 import upload from "../middleware/multer.js";
 
 const router = express.Router();
@@ -49,9 +46,33 @@ router.post(
   },
 );
 // CLOSET PAGE CLOTHES
+// router.get("/clothing", authenticateToken, async (req, res) => {
+//   try {
+//     const clothes = await Clothing.find({ user: req.user.id });
+//     res.json(clothes);
+//   } catch (error) {
+//     res.status(500).json({ error: "Error fetching clothing items" });
+//   }
+// });
+
+// CLOSET PAGE CLOTHES - Search and Fetch
 router.get("/clothing", authenticateToken, async (req, res) => {
   try {
-    const clothes = await Clothing.find({ user: req.user.id });
+    const userId = req.user.id;
+    const searchQuery = req.query.query || ''; // Get the search query
+
+    // Filter items by search query if provided, searching in `category`, `color`, etc.
+    const filter = { 
+      user: userId,
+      $or: [
+        { category: { $regex: searchQuery, $options: 'i' } },
+        { color: { $regex: searchQuery, $options: 'i' } },
+        { season: { $regex: searchQuery, $options: 'i' } },
+        { occasion: { $regex: searchQuery, $options: 'i' } },
+      ],
+    };
+
+    const clothes = await Clothing.find(filter);
     res.json(clothes);
   } catch (error) {
     res.status(500).json({ error: "Error fetching clothing items" });
@@ -63,7 +84,8 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
   try {
     const itemId = req.params.id;
     const clothingItem = await Clothing.findById(itemId);
-    console.log("Deleting item with ItemId:", itemId);
+    console.log("Attempting to delete item with ID:", itemId);
+
     if (!clothingItem) {
       return res.status(404).json({ error: "Clothing item not found" });
     }
@@ -71,24 +93,23 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
     if (clothingItem.user.toString() !== req.user.id) {
       return res.status(401).json({ error: "Unauthorized" });
     }
+
     const imagePublicId = clothingItem.image.split("/").pop().split(".")[0];
     console.log("Image Public ID:", imagePublicId);
-    try {
-      await cloudinaryDelete(imagePublicId);
-      console.log("Image deleted from Cloudinary.");
-    } catch (cloudinaryError) {
-      console.error("Cloudinary delete error:", cloudinaryError);
-      return res
-        .status(500)
-        .json({ error: "Failed to delete image from Cloudinary" });
-    }
+
+    await cloudinaryDelete(imagePublicId)
+      .then(() => console.log("Image deleted from Cloudinary"))
+      .catch((cloudinaryError) => {
+        console.error("Cloudinary delete error:", cloudinaryError);
+        return res.status(500).json({ error: "Failed to delete image from Cloudinary" });
+      });
 
     await Clothing.findByIdAndDelete(itemId);
     console.log("Clothing item deleted from MongoDB.");
 
     res.status(200).json({ message: "Clothing item deleted successfully" });
   } catch (error) {
-    console.error("error details:", error);
+    console.error("Error during deletion:", error);
     res.status(500).json({ error: "Item NOT deleted" });
   }
 });
