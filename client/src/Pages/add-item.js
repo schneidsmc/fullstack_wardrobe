@@ -119,14 +119,14 @@ const CameraPage = () => {
                   headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data",
-                  }
+                  },
                 });
                 console.log("ITEM LOGGED:", response);
                 navigate("/closet");
               } catch (error) {
                 console.error("Error loggin item", error);
               } finally {
-                alert('Item Saved to Closet!')
+                alert("Item Saved to Closet!");
                 handleCloseModal(resetForm);
                 resetForm();
               }
@@ -170,7 +170,11 @@ const CameraPage = () => {
                       <option value="sunglasses">Sunglasses</option>
                     </optgroup>
                   </Field>
-                  <ErrorMessage name="category" component="div" className="text-danger" />
+                  <ErrorMessage
+                    name="category"
+                    component="div"
+                    className="text-danger"
+                  />
                 </div>
 
                 {/* Color Field */}
@@ -194,7 +198,11 @@ const CameraPage = () => {
                     <option value="silver">Silver</option>
                     <option value="multicolor">Multicolor</option>
                   </Field>
-                  <ErrorMessage name="color" component="div" className="text-danger" />
+                  <ErrorMessage
+                    name="color"
+                    component="div"
+                    className="text-danger"
+                  />
                 </div>
 
                 {/* Season Field */}
@@ -207,7 +215,11 @@ const CameraPage = () => {
                     <option value="autumn">Autumn</option>
                     <option value="winter">Winter</option>
                   </Field>
-                  <ErrorMessage name="season" component="div" className="text-danger" />
+                  <ErrorMessage
+                    name="season"
+                    component="div"
+                    className="text-danger"
+                  />
                 </div>
 
                 {/* Occasion Field */}
@@ -222,7 +234,11 @@ const CameraPage = () => {
                     <option value="party">Party</option>
                     <option value="holiday">Holiday</option>
                   </Field>
-                  <ErrorMessage name="occasion" component="div" className="text-danger" />
+                  <ErrorMessage
+                    name="occasion"
+                    component="div"
+                    className="text-danger"
+                  />
                 </div>
 
                 <Button variant="primary" type="submit">

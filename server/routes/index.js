@@ -8,5 +8,3 @@ router.use("/users", userRoutes);
 router.use("/upload", clothingRoutes);
 
 export default router;
-
-

@@ -1,8 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
-import streamifier from "streamifier"
+import streamifier from "streamifier";
 import dotenv from "dotenv";
 
-dotenv.config({path: '../.env'});
+dotenv.config({ path: "../.env" });
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -25,6 +25,7 @@ export const cloudinaryDelete = async (publicId) => {
 export const cloudinaryUpload = (buffer) => {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
+
       { resource_type: "auto",
         // categorization: "google_tagging",
         // auto_taggin: 0.7,

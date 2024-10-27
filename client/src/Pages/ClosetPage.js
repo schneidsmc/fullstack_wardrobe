@@ -14,40 +14,40 @@ const ClosetPage = () => {
   // FETCH
   const getItems = async () => {
     try {
-            // Update Fetch url after deployment
+      // Update Fetch url after deployment
       const response = await axios.get("/api/upload/clothing", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       // console.log("token", `${localStorage.getItem("token")}`);
-      // console.log("API Response:", response.data);
+      console.log("API Response:", response.data);
       setClothingItems(response.data);
     } catch (error) {
       console.error("Cannot get itmes", error);
     }
   };
 
-    const getUserDetails = async () => {
-      try {
-      const response = await axios.get('/api/users/info', {
+  const getUserDetails = async () => {
+    try {
+      const response = await axios.get("/api/users/info", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
-        }
+        },
       });
       // console.log(response.data)
-        setUserName(response.data.name);
-      } catch (error) {
-      console.error('Cannot get user details', error)
+      setUserName(response.data.name);
+    } catch (error) {
+      console.error("Cannot get user details", error);
     }
-  }
+  };
 
   useEffect(() => {
     getItems();
     getUserDetails();
   }, []);
 
-  const handleCardClick =(item) => {
+  const handleCardClick = (item) => {
     setSelectedItem(item);
     setShowModal(true);
   };
@@ -56,7 +56,6 @@ const ClosetPage = () => {
     setShowModal(false);
     setSelectedItem(null);
   };
-
 
 
   const handleDelete = async () => {
@@ -106,11 +105,9 @@ const ClosetPage = () => {
       }
   };
 
-
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">
-
         {userName}'s Closet
         {/* CLOSET */}
         <SearchBar onSearch={handleSearch}/>
@@ -125,32 +122,33 @@ const ClosetPage = () => {
       <Row>
         {Array.isArray(clothingItems) && clothingItems.length > 0 ? (
           clothingItems.map((item) => (
-            <Col key={item._id}  xs={3} sm={4} md={3} className="mb-4">
-              <Card style={{ width: "100px", height: "100px", cursor: "pointer"}}
+            <Col key={item._id} xs={3} sm={4} md={3} className="mb-4">
+              <Card
+                style={{ width: "100px", height: "100px", cursor: "pointer" }}
                 onClick={() => handleCardClick(item)}
               >
-              <Card.Img
-                src={item.image} 
-                alt={`${item.category} ${item.brand} ${item.color}`}
-                className="card-img-top"
-                style={{width: "100%", height: "100px", objectFit: "cover" }}
-              />
+                <Card.Img
+                  src={item.image}
+                  alt={`${item.category} ${item.brand} ${item.color}`}
+                  className="card-img-top"
+                  style={{ width: "100%", height: "100px", objectFit: "cover" }}
+                />
               </Card>
-              </Col>
-                ))
+            </Col>
+          ))
         ) : (
           <div className="col-12">
             <p className="text-center">YOU GOT NO CLOTHES</p>
           </div>
         )}
       </Row>
-            {/* Modal time baby*/}
-            {selectedItem && (
-              <Modal show={showModal} onHide={handleClose} centered>
-                <Modal.Header closeButton>
-                <Modal.Title>Item Details</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
+      {/* Modal time baby*/}
+      {selectedItem && (
+        <Modal show={showModal} onHide={handleClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Item Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
             <Card>
               <Card.Img
                 variant="top"
@@ -159,29 +157,27 @@ const ClosetPage = () => {
                 style={{ height: "250px", objectFit: "cover" }}
               />
               <Card.Body>
-              <Card.Text style={{ fontSize: "14px" }}>
-                <strong>Category:</strong> {selectedItem.category}
-                <br />
-                <strong>Color:</strong> {selectedItem.color}
-                <br />
-                <strong>Season:</strong> {selectedItem.season}
-                <br />
-                <strong>Occasion:</strong> {selectedItem.occasion}
-              </Card.Text>
+                <Card.Text style={{ fontSize: "14px" }}>
+                  <strong>Category:</strong> {selectedItem.category}
+                  <br />
+                  <strong>Color:</strong> {selectedItem.color}
+                  <br />
+                  <strong>Season:</strong> {selectedItem.season}
+                  <br />
+                  <strong>Occasion:</strong> {selectedItem.occasion}
+                  <br />
+                  <strong>Tags:</strong> {selectedItem.tags?.join(',')}
+                </Card.Text>
               </Card.Body>
-              </Card>
-              </Modal.Body>
-              <Modal.Footer>
-            <Button
-              variant="danger"
-              onClick={handleDelete}
-            >
-Delete
+            </Card>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={handleDelete}>
+              Delete
             </Button>
           </Modal.Footer>
-              </Modal>
-            )}
-
+        </Modal>
+      )}
     </div>
   );
 };
