@@ -88,8 +88,22 @@ const ClosetPage = () => {
         console.error("OOPE Failed to delete item", error);
       }
     };
-    const handleSearch = (query) => {
-      console.log('Search query:', query);
+    const handleSearch = async (query) => {
+      try {
+          const response = await axios.get(`/api/upload/clothing`, {
+              headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              params: {
+                  query: query, // Send the query to the backend
+              },
+          });
+          
+          // Update clothing items based on the search results
+          setClothingItems(response.data);
+      } catch (error) {
+          console.error("Error fetching search results", error);
+      }
   };
 
 

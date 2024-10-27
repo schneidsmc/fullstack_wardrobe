@@ -44,9 +44,33 @@ router.post(
   },
 );
 // CLOSET PAGE CLOTHES
+// router.get("/clothing", authenticateToken, async (req, res) => {
+//   try {
+//     const clothes = await Clothing.find({ user: req.user.id });
+//     res.json(clothes);
+//   } catch (error) {
+//     res.status(500).json({ error: "Error fetching clothing items" });
+//   }
+// });
+
+// CLOSET PAGE CLOTHES - Search and Fetch
 router.get("/clothing", authenticateToken, async (req, res) => {
   try {
-    const clothes = await Clothing.find({ user: req.user.id });
+    const userId = req.user.id;
+    const searchQuery = req.query.query || ''; // Get the search query
+
+    // Filter items by search query if provided, searching in `category`, `color`, etc.
+    const filter = { 
+      user: userId,
+      $or: [
+        { category: { $regex: searchQuery, $options: 'i' } },
+        { color: { $regex: searchQuery, $options: 'i' } },
+        { season: { $regex: searchQuery, $options: 'i' } },
+        { occasion: { $regex: searchQuery, $options: 'i' } },
+      ],
+    };
+
+    const clothes = await Clothing.find(filter);
     res.json(clothes);
   } catch (error) {
     res.status(500).json({ error: "Error fetching clothing items" });
