@@ -69,8 +69,6 @@ const ItemPage = () => {
         />
         <Card.Body>
           <Card.Text style={{ fontSize: "14px" }}>
-            <strong>Brand:</strong> {item.brand}
-            <br />
             <strong>Color:</strong> {item.color}
             <br />
             <strong>Season:</strong> {item.season}

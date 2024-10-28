@@ -49,7 +49,7 @@ router.post(
   },
 );
 
-// CLOSET PAGE CLOTHES - Search and Fetch
+// CLOSET PAGE ALL CLOTHES - Search and Fetch
 router.get("/clothing", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -109,5 +109,27 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Item NOT deleted" });
   }
 });
+
+// GET single item
+router.get("/clothing/:id", authenticateToken, async (req, res) => {
+  try {
+    const itemId = req.params.id;
+    const clothingItem = await Clothing.findById(itemId);
+
+    if (!clothingItem) {
+      return res.status(404).json({ error: "Clothing item not found" });
+    }
+// Authorized User
+    if (clothingItem.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Unauthorized. Must Register" });
+    }
+
+    res.status(200).json(clothingItem);
+  } catch (error) {
+    console.error("Error fetching clothing item by id", error);
+    res.status(500).json({ error: "Error fetching clothing item" });
+  }
+});
+
 
 export default router;
