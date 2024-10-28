@@ -119,7 +119,7 @@ router.get("/clothing/:id", authenticateToken, async (req, res) => {
     if (!clothingItem) {
       return res.status(404).json({ error: "Clothing item not found" });
     }
-// Authorized User
+    // Authorized User
     if (clothingItem.user.toString() !== req.user.id) {
       return res.status(401).json({ error: "Unauthorized. Must Register" });
     }
@@ -131,5 +131,34 @@ router.get("/clothing/:id", authenticateToken, async (req, res) => {
   }
 });
 
+router.put("/clothing/:id", authenticateToken, async (req, res) => {
+  try {
+    const itemId = req.params.id;
+    const { category, color, season, occasion, tags } = req.body;
+
+    const clothingItem = await Clothing.findById(itemId);
+
+    if (!clothingItem) {
+      return res.status(404).json({ error: "Clothing item not found" });
+    }
+
+    if (clothingItem.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Unauthorized." });
+    }
+
+    clothingItem.category = category;
+    clothingItem.color = color;
+    clothingItem.season = season;
+    clothingItem.occasion = occasion;
+    clothingItem.tags = tags;
+
+    await clothingItem.save();
+
+    res.status(200).json({ message: "Item Updated!", clothingItem });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "FAILED to update item" });
+  }
+});
 
 export default router;
