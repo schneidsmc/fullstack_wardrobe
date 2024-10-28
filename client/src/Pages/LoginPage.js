@@ -3,6 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import {useNavigate} from 'react-router-dom'
 
 // // Validation schema using Yup - move to utils folder later
 
@@ -14,6 +15,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const handleLogin = async (values, { setSubmitting, resetForm }) => {
     try {
       // Update Fetch url after deployment
@@ -29,11 +31,12 @@ const LoginForm = () => {
       if (!response.ok) {
         alert(`NOPE!: ${data.error}`);
       } else {
-        alert("LOGGED IN!");
+        // alert("LOGGED IN!");
         // console.log(data.token);
         // IDK a better way to save the token?? This seems like the easiest way to make it persist for meow
         localStorage.setItem("token", data.token);
         resetForm();
+        navigate("/closet");
       }
     } catch (error) {
       console.error("Login error:", error);

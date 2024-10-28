@@ -129,7 +129,7 @@ const CameraPage = () => {
               } catch (error) {
                 console.error("Error loggin item", error);
               } finally {
-                alert("Item Saved to Closet!");
+                // alert("Item Saved to Closet!");
                 handleCloseModal(resetForm);
                 resetForm();
               }
