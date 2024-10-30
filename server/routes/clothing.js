@@ -63,7 +63,7 @@ router.get("/clothing", authenticateToken, async (req, res) => {
         { color: { $regex: searchQuery, $options: "i" } },
         { season: { $regex: searchQuery, $options: "i" } },
         { occasion: { $regex: searchQuery, $options: "i" } },
-        { tags: { $regex: searchQuery, $options: "i" } }
+        { tags: { $elemMatch: { $regex: searchQuery, $options: "i" } } }
       ],
     };
 
