@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Col, Row, Card } from "react-bootstrap";
+import { Breadcrumb, Button, Col, Row, Card } from "react-bootstrap";
 import axios from "axios";
 import SearchBar from "../Components/search-bar";
 
@@ -57,6 +57,12 @@ const ClosetPage = () => {
 
   return (
     <div className="container mt-5">
+      <Breadcrumb>
+        <Breadcrumb.Item onClick={() => navigate("/")}>Home</Breadcrumb.Item>
+        <Breadcrumb.Item onClick={() => navigate("/closet")}>
+          Closet
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <h1 className="text-center mb-4">
         {userName}'s Closet
         <SearchBar onSearch={handleSearch} />

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Card, Form } from "react-bootstrap";
+import { Breadcrumb, Button, Card, Form } from "react-bootstrap";
 import axios from "axios";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPlusCircle } from "react-icons/fa";
 import OrganizationTagsInput from "../Components/input-tags";
 
 const ItemPage = () => {
@@ -103,7 +103,7 @@ const ItemPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        },
+        }
       );
       alert("Item updated successfully!");
       setIsEditing(false); // Exit edit mode
@@ -116,8 +116,49 @@ const ItemPage = () => {
     return <div>Loading...</div>; // Show loading state while fetching
   }
 
+  const handleDelete = async () => {
+    // console.log("selected item for deletions:", selectedItem);
+    // console.log("selected item for deletions:", selectedItem._id);
+
+    if (!item || !item._id) {
+      console.error("no item delected or ID is missing");
+      return;
+    }
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
+      await axios.delete(`/api/upload/clothing/${item._id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      // console.log("Deleting item with ID:", selectedItem._id);
+      // Remove deleted item from state
+      handleBack();
+    } catch (error) {
+      console.error("OOPE Failed to delete item", error);
+    }
+  };
+
   return (
     <div className="container mt-5">
+      <Breadcrumb>
+        <Breadcrumb.Item onClick={() => navigate("/")}>Home</Breadcrumb.Item>
+        <Breadcrumb.Item onClick={() => navigate("/closet")}>
+          Closet
+        </Breadcrumb.Item>
+        <Breadcrumb.Item active>{item?.category} Details</Breadcrumb.Item>
+      </Breadcrumb>
       <h1 className="text-center mb-4">{item.category} Details</h1>
       <Card>
         <Card.Img
@@ -127,19 +168,32 @@ const ItemPage = () => {
           style={{ height: "250px", objectFit: "cover" }}
         />
         <Card.Body>
-          <Card.Text style={{ fontSize: "14px" }}>
+          <Card.Text style={{ fontSize: "14px", position: "relative" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => setIsEditing((prevState) => !prevState)}
+            >
+              {" "}
+              Edit Item <FaEdit style={{ marginLeft: "5px" }} />
+              <br />
+            </div>
             <strong>Color:</strong> {color}
             <br />
             <strong>Season:</strong> {season}
             <br />
             <strong>Occasion:</strong> {occasion}
             <br />
-            <strong>Tags:</strong> {tags.join(", ")}
+            <strong>Custom Tags:</strong> {tags.join(", ")}
             <span
               style={{ marginLeft: "10px", cursor: "pointer" }}
-              onClick={() => setIsEditing(true)}
+              onClick={() => setIsEditing((prevState) => !prevState)}
             >
-              <FaEdit />
+              <FaPlusCircle />
             </span>
           </Card.Text>
 
@@ -209,16 +263,21 @@ const ItemPage = () => {
                   ))}
                 </Form.Control>
               </Form.Group>
-
-              <OrganizationTagsInput tags={tags} setTags={setTags} />
-
-              <Button variant="primary" onClick={handleSaveItem}>
+              <Form.Group>
+                <Form.Label>Custom Tags</Form.Label>
+                <OrganizationTagsInput tags={tags} setTags={setTags} />
+              </Form.Group>
+              <Button
+                variant="primary"
+                onClick={handleSaveItem}
+                style={{ marginTop: "10px" }}
+              >
                 Save Changes
               </Button>
               <Button
                 variant="secondary"
                 onClick={() => setIsEditing(false)}
-                style={{ marginLeft: "10px" }}
+                style={{ marginTop: "10px", marginLeft: "10px" }}
               >
                 Cancel
               </Button>
@@ -231,6 +290,13 @@ const ItemPage = () => {
             style={{ marginTop: "10px" }}
           >
             Back to Closet
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleDelete}
+            style={{ marginTop: "10px", marginLeft: "10px" }}
+          >
+            Delete
           </Button>
         </Card.Body>
       </Card>
