@@ -1,41 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button, Col, Row, Card, Modal } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { Breadcrumb, Button, Col, Row, Card } from "react-bootstrap";
 import axios from "axios";
 import SearchBar from "../Components/search-bar";
 
 const ClosetPage = () => {
-  // holding items and user name in state
   const [clothingItems, setClothingItems] = useState([]);
   const [userName, setUserName] = useState("");
-  const [showModal, setShowModal] = useState(false); //state for showing the modal
-  const [selectedItem, setSelectedItem] = useState(null);
+  const navigate = useNavigate();
 
-  // FETCH
+  // Fetch clothing items
   const getItems = async () => {
     try {
-      // Update Fetch url after deployment
       const response = await axios.get("/api/upload/clothing", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      // console.log("token", `${localStorage.getItem("token")}`);
-      // console.log("API Response:", response.data);
       setClothingItems(response.data);
     } catch (error) {
-      console.error("Cannot get itmes", error);
+      console.error("Cannot get items", error);
     }
   };
 
+  // Fetch user details
   const getUserDetails = async () => {
     try {
       const response = await axios.get("/api/users/info", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      // console.log(response.data)
       setUserName(response.data.name);
     } catch (error) {
       console.error("Cannot get user details", error);
@@ -48,56 +39,16 @@ const ClosetPage = () => {
   }, []);
 
   const handleCardClick = (item) => {
-    setSelectedItem(item);
-    setShowModal(true);
+    navigate(`/item/${item._id}`);
   };
 
-  const handleClose = () => {
-    setShowModal(false);
-    setSelectedItem(null);
-  };
-
-  const handleDelete = async () => {
-    // console.log("selected item for deletions:", selectedItem);
-    // console.log("selected item for deletions:", selectedItem._id);
-
-    if (!selectedItem || !selectedItem._id) {
-      console.error("no item delected or ID is missing");
-      return;
-    }
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found in localStorage");
-        return;
-      }
-      await axios.delete(`/api/upload/clothing/${selectedItem._id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      // console.log("Deleting item with ID:", selectedItem._id);
-      // Remove deleted item from state
-      setClothingItems(
-        clothingItems.filter((item) => item._id !== selectedItem._id),
-      );
-      handleClose(); // Close the modal
-    } catch (error) {
-      console.error("OOPE Failed to delete item", error);
-    }
-  };
+  // Handle search query
   const handleSearch = async (query) => {
     try {
       const response = await axios.get(`/api/upload/clothing`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        params: {
-          query: query, // Send the query to the backend
-        },
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        params: { query }, // Send the search query to the backend
       });
-
-      // Update clothing items based on the search results
       setClothingItems(response.data);
     } catch (error) {
       console.error("Error fetching search results", error);
@@ -106,9 +57,14 @@ const ClosetPage = () => {
 
   return (
     <div className="container mt-5">
+      <Breadcrumb>
+        <Breadcrumb.Item onClick={() => navigate("/")}>Home</Breadcrumb.Item>
+        <Breadcrumb.Item onClick={() => navigate("/closet")}>
+          Closet
+        </Breadcrumb.Item>
+      </Breadcrumb>
       <h1 className="text-center mb-4">
         {userName}'s Closet
-        {/* CLOSET */}
         <SearchBar onSearch={handleSearch} />
       </h1>
       <div className="text-center">
@@ -141,42 +97,6 @@ const ClosetPage = () => {
           </div>
         )}
       </Row>
-      {/* Modal time baby*/}
-      {selectedItem && (
-        <Modal show={showModal} onHide={handleClose} centered>
-          <Modal.Header closeButton>
-            <Modal.Title>Item Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Card>
-              <Card.Img
-                variant="top"
-                src={selectedItem.image}
-                alt={`${selectedItem.category} ${selectedItem.brand} ${selectedItem.color}`}
-                style={{ height: "250px", objectFit: "cover" }}
-              />
-              <Card.Body>
-                <Card.Text style={{ fontSize: "14px" }}>
-                  <strong>Category:</strong> {selectedItem.category}
-                  <br />
-                  <strong>Color:</strong> {selectedItem.color}
-                  <br />
-                  <strong>Season:</strong> {selectedItem.season}
-                  <br />
-                  <strong>Occasion:</strong> {selectedItem.occasion}
-                  <br />
-                  <strong>Tags:</strong> {selectedItem.tags?.join(",")}
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="danger" onClick={handleDelete}>
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
     </div>
   );
 };

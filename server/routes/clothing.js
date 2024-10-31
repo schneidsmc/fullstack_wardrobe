@@ -49,7 +49,7 @@ router.post(
   },
 );
 
-// CLOSET PAGE CLOTHES - Search and Fetch
+// CLOSET PAGE ALL CLOTHES - Search and Fetch
 router.get("/clothing", authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -63,6 +63,7 @@ router.get("/clothing", authenticateToken, async (req, res) => {
         { color: { $regex: searchQuery, $options: "i" } },
         { season: { $regex: searchQuery, $options: "i" } },
         { occasion: { $regex: searchQuery, $options: "i" } },
+        { tags: { $elemMatch: { $regex: searchQuery, $options: "i" } } }
       ],
     };
 
@@ -107,6 +108,57 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
   } catch (error) {
     console.error("Error during deletion:", error);
     res.status(500).json({ error: "Item NOT deleted" });
+  }
+});
+
+// GET single item
+router.get("/clothing/:id", authenticateToken, async (req, res) => {
+  try {
+    const itemId = req.params.id;
+    const clothingItem = await Clothing.findById(itemId);
+
+    if (!clothingItem) {
+      return res.status(404).json({ error: "Clothing item not found" });
+    }
+    // Authorized User
+    if (clothingItem.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Unauthorized. Must Register" });
+    }
+
+    res.status(200).json(clothingItem);
+  } catch (error) {
+    console.error("Error fetching clothing item by id", error);
+    res.status(500).json({ error: "Error fetching clothing item" });
+  }
+});
+
+router.put("/clothing/:id", authenticateToken, async (req, res) => {
+  try {
+    const itemId = req.params.id;
+    const { category, color, season, occasion, tags } = req.body;
+
+    const clothingItem = await Clothing.findById(itemId);
+
+    if (!clothingItem) {
+      return res.status(404).json({ error: "Clothing item not found" });
+    }
+
+    if (clothingItem.user.toString() !== req.user.id) {
+      return res.status(401).json({ error: "Unauthorized." });
+    }
+
+    clothingItem.category = category;
+    clothingItem.color = color;
+    clothingItem.season = season;
+    clothingItem.occasion = occasion;
+    clothingItem.tags = tags;
+
+    await clothingItem.save();
+
+    res.status(200).json({ message: "Item Updated!", clothingItem });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "FAILED to update item" });
   }
 });
 
