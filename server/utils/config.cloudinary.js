@@ -28,8 +28,8 @@ export const cloudinaryUpload = (buffer) => {
       {
         resource_type: "auto",
         categorization: "google_tagging",
-        auto_taggin: 0.7,
-        background_removal: "cloudinary_ai"
+        auto_tagging: 0.7,
+        // background_removal: "cloudinary_ai",
       },
       (error, result) => {
         if (result) {
