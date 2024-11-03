@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button, Col, Row, Card, Modal } from "react-bootstrap";
+
+import { Link, useNavigate } from "react-router-dom";
+import { Breadcrumb, Button, Col, Row, Card, Spinner } from "react-bootstrap";
 import axios from "axios";
 import SearchBar from "../Components/search-bar";
 
@@ -8,8 +9,9 @@ const ClosetPage = () => {
   // holding items and user name in state
   const [clothingItems, setClothingItems] = useState([]);
   const [userName, setUserName] = useState("");
-  const [showModal, setShowModal] = useState(false); //state for showing the modal
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [loadingImage, setLoadingImage] = useState([]);
+  const navigate = useNavigate();
+
 
   // FETCH
   const getItems = async () => {
@@ -105,6 +107,20 @@ const ClosetPage = () => {
       }
   };
 
+  const imageLoad = (itemId) => {
+    setLoadingImage((prev) => ({
+      ...prev,
+      [itemId]: false,
+    }));
+  };
+
+  const imageLoadErr = (itemId) => {
+    setLoadingImage((prev) => ({
+      ...prev,
+      [itemId]: false,
+    }));
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">
@@ -127,12 +143,45 @@ const ClosetPage = () => {
                 style={{ width: "100px", height: "100px", cursor: "pointer" }}
                 onClick={() => handleCardClick(item)}
               >
-                <Card.Img
-                  src={item.image}
-                  alt={`${item.category} ${item.brand} ${item.color}`}
-                  className="card-img-top"
-                  style={{ width: "100%", height: "100px", objectFit: "cover" }}
-                />
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {/* Show spinner while image is loading */}
+                  {loadingImage[item._id] !== false && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "#f8f9fa",
+                      }}
+                    >
+                      <Spinner animation="border" size="sm" />
+                    </div>
+                  )}
+                  <Card.Img
+                    src={item.image}
+                    alt={`${item.category} ${item.brand} ${item.color}`}
+                    className="card-img-top"
+                    style={{
+                      width: "100%",
+                      height: "100px",
+                      objectFit: "cover",
+                      opacity: loadingImage[item._id] === false ? 1 : 0,
+                    }}
+                    onLoad={() => imageLoad(item._id)}
+                    onError={() => imageLoadErr(item._id)}
+                  />
+                </div>
               </Card>
             </Col>
           ))
