@@ -29,11 +29,15 @@ export const cloudinaryUpload = (buffer) => {
         resource_type: "auto",
         categorization: "google_tagging",
         auto_tagging: 0.7,
-        // background_removal: "cloudinary_ai",
+        background_removal: "cloudinary_ai:fine_edges",
       },
       (error, result) => {
         if (result) {
-          resolve(result);
+          const backgroundRemovedURL = result.secure_url.replace(
+            "/upload/",
+            "/upload/e_background_removal/",
+          );
+          resolve({ ...result, secure_url: backgroundRemovedURL });
         } else {
           reject(error);
         }

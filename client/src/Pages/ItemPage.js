@@ -103,7 +103,7 @@ const ItemPage = () => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       alert("Item updated successfully!");
       setIsEditing(false); // Exit edit mode
@@ -125,7 +125,7 @@ const ItemPage = () => {
       return;
     }
     const confirmed = window.confirm(
-      "Are you sure you want to delete this item?"
+      "Are you sure you want to delete this item?",
     );
     if (!confirmed) {
       return;

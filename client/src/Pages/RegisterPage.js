@@ -22,8 +22,7 @@ const validationSchema = Yup.object().shape({
 
 // formik form
 const RegistrationForm = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -169,7 +168,6 @@ const RegistrationForm = () => {
                 >
                   {isSubmitting ? "Registering..." : "Register"}
                 </Button>
-                
               </Form>
             )}
           </Formik>

@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
-
+import { useNavigate } from "react-router-dom";
 // // Validation schema using Yup - move to utils folder later
 
 const validationSchema = Yup.object().shape({
@@ -14,6 +14,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const handleLogin = async (values, { setSubmitting, resetForm }) => {
     try {
       // Update Fetch url after deployment
@@ -35,6 +36,7 @@ const LoginForm = () => {
         localStorage.setItem("token", data.token);
         resetForm();
       }
+      navigate("/closet");
     } catch (error) {
       console.error("Login error:", error);
     } finally {
