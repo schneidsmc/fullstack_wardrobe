@@ -79,7 +79,7 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
   try {
     const itemId = req.params.id;
     const clothingItem = await Clothing.findById(itemId);
-    // console.log("Attempting to delete item with ID:", itemId);
+    console.log("Attempting to delete item with ID:", itemId);
 
     if (!clothingItem) {
       return res.status(404).json({ error: "Clothing item not found" });
@@ -106,6 +106,7 @@ router.delete("/clothing/:id", authenticateToken, async (req, res) => {
 
     res.status(200).json({ message: "Clothing item deleted successfully" });
   } catch (error) {
+
     console.error("Error during deletion:", error);
     res.status(500).json({ error: "Item NOT deleted" });
   }

@@ -15,6 +15,7 @@ const validationSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const navigate = useNavigate();
+
   const handleLogin = async (values, { setSubmitting, resetForm }) => {
     try {
       // Update Fetch url after deployment
@@ -30,11 +31,12 @@ const LoginForm = () => {
       if (!response.ok) {
         alert(`NOPE!: ${data.error}`);
       } else {
-        alert("LOGGED IN!");
+        // alert("LOGGED IN!");
         // console.log(data.token);
         // IDK a better way to save the token?? This seems like the easiest way to make it persist for meow
         localStorage.setItem("token", data.token);
         resetForm();
+        navigate("/closet");
       }
       navigate("/closet");
     } catch (error) {
