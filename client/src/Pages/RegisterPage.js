@@ -21,9 +21,8 @@ const validationSchema = Yup.object().shape({
 });
 
 // formik form
-
+const RegistrationForm = () => {
   const navigate = useNavigate();
-
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -49,7 +48,6 @@ const validationSchema = Yup.object().shape({
                 .post("/api/users/registration", userData)
                 .then((response) => {
                   console.log("User Registered Successss!:", response.data);
-                  
                   const { token } = response.data;
                   localStorage.setItem("token", token);
                   console.log("Token SAVED Successss!:", token);
@@ -170,7 +168,6 @@ const validationSchema = Yup.object().shape({
                 >
                   {isSubmitting ? "Registering..." : "Register"}
                 </Button>
-                
               </Form>
             )}
           </Formik>

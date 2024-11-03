@@ -86,15 +86,12 @@ const CameraPage = () => {
       <Modal show={itemModal} onHide={() => handleCloseModal(() => {})}>
         <ModalHeader closeButton>Add Item</ModalHeader>
         <ModalBody>
-          {imageSrc && (
-            <img
-              src={imageSrc}
-              className="img-fluid"
-              alt="Captured"
-              style={{ maxWidth: "100%", height: "auto" }}
-              effect=""
-            />
-          )}
+          {imageSrc && <img 
+            src={imageSrc} 
+            className="img-fluid"
+            alt="Captured"
+            style={{ maxWidth: "100%", height: "auto" }}
+            effect="" />}
           <Formik
             initialValues={{
               category: "",
