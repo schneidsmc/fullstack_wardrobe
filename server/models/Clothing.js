@@ -1,36 +1,36 @@
 import mongoose from "mongoose";
 
-
-const clothingSchema = new mongoose.Schema({
-  user: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'User', 
-    required: true
+const clothingSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+    },
+    season: {
+      type: String,
+    },
+    occasion: {
+      type: String,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    tags: [String],
   },
-  category: {
-    type: String,
-    required: true
+  {
+    timestamps: true,
+    collection: "clothingDb",
   },
-  color: {
-    type: String,
-  },
-  season: {
-    type: String,
-  },
-  occasion: {
-    type: String,
-  },
-  image: {
-    type: String,
-    required: true
-  },
-  tags: [String],
-},
-{
-  timestamps: true,
-  collection: "clothingDb",
-},
-)
+);
 
 // const clothingSchema = new mongoose.Schema(
 //   {
@@ -69,39 +69,39 @@ const clothingSchema = new mongoose.Schema({
 //     color: {
 //       type: String,
 //       enum: [
-//         "black",
-//         "white",
-//         "gray",
-//         "red",
-//         "green",
-//         "yellow",
-//         "blue",
-//         "brown",
-//         "pink",
-//         "beige",
-//         "purple",
-//         "orange",
-//         "gold",
-//         "silver",
-//         "multicolor",
+// "black",
+// "white",
+// "gray",
+// "red",
+// "green",
+// "yellow",
+// "blue",
+// "brown",
+// "pink",
+// "beige",
+// "purple",
+// "orange",
+// "gold",
+// "silver",
+// "multicolor",
 //       ],
 //       required: true,
 //     },
 //     season: {
 //       type: String,
-//       enum: ["spring", "summer", "autumn", "winter"],
+// enum: ["spring", "summer", "autumn", "winter"],
 //       required: true,
 //     },
 //     occasion: {
 //       type: String,
 //       enum: [
-//         "casual",
-//         "work",
-//         "formal",
-//         "activewear",
-//         "vacation",
-//         "party",
-//         "holiday",
+// "casual",
+// "work",
+// "formal",
+// "activewear",
+// "vacation",
+// "party",
+// "holiday",
 //       ],
 //       required: true,
 //     },

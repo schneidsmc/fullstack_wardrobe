@@ -14,6 +14,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import axios from "axios";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import OrganizationTagsInput from "../Components/input-tags";
 
 const validationSchema = Yup.object().shape({
   category: Yup.string().required("Category is required"),
@@ -27,6 +28,7 @@ const CameraPage = () => {
   const [imageSrc, setImageSrc] = useState(null);
   const [itemModal, setItemModal] = useState(false);
   const navigate = useNavigate();
+  const [tags, setTags] = useState([]);
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot(); // Capture image
@@ -96,6 +98,7 @@ const CameraPage = () => {
               color: "",
               season: "",
               occasion: "",
+              tags: [],
             }}
             validationSchema={validationSchema}
             onSubmit={async (values, { resetForm }) => {
@@ -105,6 +108,7 @@ const CameraPage = () => {
               itemData.append("color", values.color);
               itemData.append("season", values.season);
               itemData.append("occasion", values.occasion);
+              tags.forEach((tag) => itemData.append("tags[]", tag));
               if (imageSrc) {
                 const imageBlob = dataURLtoBlob(imageSrc);
                 itemData.append("image", imageBlob, "image.jpg");
@@ -126,7 +130,7 @@ const CameraPage = () => {
               } catch (error) {
                 console.error("Error loggin item", error);
               } finally {
-                alert("Item Saved to Closet!");
+                // alert("Item Saved to Closet!");
                 handleCloseModal(resetForm);
                 resetForm();
               }
@@ -240,8 +244,14 @@ const CameraPage = () => {
                     className="text-danger"
                   />
                 </div>
+                <label>Custom Tags: </label>
+                <OrganizationTagsInput tags={tags} setTags={setTags} />
 
-                <Button variant="primary" type="submit">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  style={{ marginTop: "10px" }}
+                >
                   Add Item
                 </Button>
               </Form>

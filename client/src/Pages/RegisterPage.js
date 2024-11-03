@@ -3,6 +3,7 @@ import { Formik } from "formik"; //library for handling form state, validation, 
 import * as Yup from "yup"; //schema builder to define validation rules for form
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 // Validation schema using Yup - move to utils folder later
 const validationSchema = Yup.object().shape({
@@ -21,6 +22,7 @@ const validationSchema = Yup.object().shape({
 
 // formik form
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -50,6 +52,7 @@ const RegistrationForm = () => {
                   localStorage.setItem("token", token);
                   console.log("Token SAVED Successss!:", token);
                   resetForm();
+                  navigate("/closet");
                 })
                 .catch((error) => {
                   console.error("Whoop! Dont work", error);
