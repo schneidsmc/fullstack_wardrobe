@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:watch": "NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --watchAll",
     "install": "npm install --prefix client && npm install --prefix server",
     "deploy": "concurrently \"npm start --prefix client\" \"npm run start --prefix server\"",
     "dev": "concurrently \"npm start --prefix client\" \"npm run build --prefix client\" \"npm run dev --prefix server\"",
@@ -23,10 +24,21 @@
     "express": "^4.21.0",
     "mongoose": "^8.6.3",
     "prettier": "^3.3.3",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
     "react-tag-input-component": "^2.0.2",
     "react-tagsinput": "^3.20.3"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-node": "^29.7.0",
+    "supertest": "^7.0.0",
+    "text-encoding": "^0.7.0"
   }
 }

@@ -11,7 +11,6 @@ const ClosetPage = () => {
   const [loadingImage, setLoadingImage] = useState([]);
   const navigate = useNavigate();
 
-
   // FETCH
   const getItems = async () => {
     try {
@@ -45,7 +44,6 @@ const ClosetPage = () => {
     getItems();
     getUserDetails();
   }, []);
-
 
   const handleCardClick = (item) => {
     navigate(`/item/${item._id}`);
