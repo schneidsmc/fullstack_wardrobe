@@ -15,6 +15,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import OrganizationTagsInput from "../Components/input-tags";
+import BackgroundRemovalToggle from "../Components/backgroundToggle";
 
 const validationSchema = Yup.object().shape({
   category: Yup.string().required("Category is required"),
@@ -73,7 +74,7 @@ const CameraPage = () => {
               facingMode: "user",
             }}
           />
-
+          <BackgroundRemovalToggle />
           {/* Capture Button */}
           <div className="text-center mt-4">
             <Button onClick={capture} variant="primary">
@@ -86,12 +87,15 @@ const CameraPage = () => {
       <Modal show={itemModal} onHide={() => handleCloseModal(() => {})}>
         <ModalHeader closeButton>Add Item</ModalHeader>
         <ModalBody>
-          {imageSrc && <img 
-            src={imageSrc} 
-            className="img-fluid"
-            alt="Captured"
-            style={{ maxWidth: "100%", height: "auto" }}
-            effect="" />}
+          {imageSrc && (
+            <img
+              src={imageSrc}
+              className="img-fluid"
+              alt="Captured"
+              style={{ maxWidth: "100%", height: "auto" }}
+              effect=""
+            />
+          )}
           <Formik
             initialValues={{
               category: "",

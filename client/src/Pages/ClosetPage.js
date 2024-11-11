@@ -11,7 +11,6 @@ const ClosetPage = () => {
   const [loadingImage, setLoadingImage] = useState([]);
   const navigate = useNavigate();
 
-
   // FETCH
   const getItems = async () => {
     try {
@@ -45,7 +44,6 @@ const ClosetPage = () => {
     getItems();
     getUserDetails();
   }, []);
-
 
   const handleCardClick = (item) => {
     navigate(`/item/${item._id}`);
@@ -93,6 +91,13 @@ const ClosetPage = () => {
         <Link to="/camera">
           <Button variant="primary" className="mb-3">
             Add Item
+          </Button>
+        </Link>
+      </div>
+      <div className="text-center">
+        <Link to="">
+          <Button variant="primary" className="mb-3">
+            Create Outfift
           </Button>
         </Link>
       </div>
