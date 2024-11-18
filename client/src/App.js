@@ -10,6 +10,7 @@ import CameraPage from "./Pages/add-item";
 import "./App.css";
 import Header from "./Components/Header";
 import HelloWorld from "./Components/HelloWorld";
+import DragDropPage from "./Pages/DragDropPage";
 // import Footer
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/closet" element={<ClosetPage />} />
           <Route path="/camera" element={<CameraPage />} />
           <Route path="/item/:id" element={<ItemPage />} />{" "}
+          <Route path="/dragdrop" element={<DragDropPage />} />
           {/* Route for ItemPage */}
         </Routes>
       </Router>
