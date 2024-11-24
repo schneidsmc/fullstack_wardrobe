@@ -25,7 +25,6 @@ const outfitSchema = new mongoose.Schema(
         accessories: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Clothing",
-            required: true,
         },
     },
     {
