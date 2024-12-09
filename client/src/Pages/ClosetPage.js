@@ -95,7 +95,7 @@ const ClosetPage = () => {
         </Link>
       </div>
       <div className="text-center">
-        <Link to="/dragdrop">
+        <Link to="/bycategory">
           <Button variant="primary" className="mb-3">
             Create Outfift
           </Button>
