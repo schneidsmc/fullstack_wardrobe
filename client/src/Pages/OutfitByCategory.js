@@ -49,13 +49,12 @@ const OutfitGrid = () => {
         try {
             const outfitData = {
                 name: "My Outfit",
-                items: {
-                    top: selectedOutfit.top._id,
-                    bottom: selectedOutfit.bottom._id,
-                    shoes: selectedOutfit.shoes._id,
-                    accessories: selectedOutfit.accessories?._id
-                }
+                top: selectedOutfit.top._id,
+                bottom: selectedOutfit.bottom._id,
+                shoes: selectedOutfit.shoes._id,
+                accessories: selectedOutfit.accessories?._id
             }
+            console.log("outfitData:", outfitData)
             const response = await axios.post("/api/outfits", outfitData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
