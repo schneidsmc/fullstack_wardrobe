@@ -30,10 +30,11 @@ const OutfitGrid = () => {
         });
 
         const data = response.data;
-        setTops(data.filter((item) => item.category === "top"));
-        setBottoms(data.filter((item) => item.category === "bottom"));
-        setShoes(data.filter((item) => item.category === "shoes"));
-        setAccessories(data.filter((item) => item.category === "accessories"));
+        console.log("response.data", response.data)
+        setTops(data.filter((item) => item.category === "top" || item.category === "tank" || item.category === "sweater" || item.category === "long sleeve" || item.category === "short sleeve" || item.category === "jacket" || item.category === "tube top"));
+        setBottoms(data.filter((item) => item.category === "bottom" || item.category === "shorts" || item.category === "pants" || item.category === "skirts"));
+        setShoes(data.filter((item) => item.category === "shoes" || item.category === "heels" || item.category === "boots" || item.category === "sandals" || item.category === "sneakers"));
+        setAccessories(data.filter((item) => item.category === "accessories" || item.category === "necklace" || item.category === "earrings" || item.category === "bag" || item.category === "hat" || item.category === "scarf" || item.category === "bracelet" || item.category === "ring" || item.category === "sunglasses"));
         } catch (error) {
         console.error("Error fetching clothing:", error);
         }}
