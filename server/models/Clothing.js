@@ -10,6 +10,7 @@ const clothingSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      enum: ["top", "bottom", "shoes", "accessories"]
     },
     color: {
       type: String,

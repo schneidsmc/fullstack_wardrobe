@@ -27,9 +27,9 @@ export const cloudinaryUpload = (buffer) => {
     const stream = cloudinary.uploader.upload_stream(
       {
         resource_type: "auto",
-        categorization: "google_tagging",
-        auto_tagging: 0.7,
-        background_removal: "cloudinary_ai:fine_edges",
+        // categorization: "google_tagging",
+        // auto_tagging: 0.7,
+        // background_removal: "cloudinary_ai:fine_edges",
       },
       (error, result) => {
         if (result) {
