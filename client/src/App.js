@@ -12,6 +12,7 @@ import Header from "./Components/Header";
 import HelloWorld from "./Components/HelloWorld";
 import DragDropPage from "./Pages/DragDropPage";
 import OutfitGrid from "./Pages/OutfitByCategory";
+import OutfitPage from "./Pages/OutfitPage";
 // import Footer
 
 const App = () => {
@@ -38,9 +39,9 @@ const App = () => {
           <Route path="/closet" element={<ClosetPage />} />
           <Route path="/camera" element={<CameraPage />} />
           <Route path="/item/:id" element={<ItemPage />} />{" "}
+          <Route path="/outfit/:id" element={<OutfitPage />} />{" "}
           <Route path="/dragdrop" element={<DragDropPage />} />
           <Route path="/bycategory" element={<OutfitGrid />} />
-          {/* Route for ItemPage */}
         </Routes>
       </Router>
     </div>
