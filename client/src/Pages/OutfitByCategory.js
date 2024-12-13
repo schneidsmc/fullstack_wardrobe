@@ -92,10 +92,10 @@ const handleSaveOutfit = async () => {
     try {
     const outfitData = {
         name: "My Outfit",
-        top: selectedOutfit.top._id,
-        bottom: selectedOutfit.bottom._id,
-        shoes: selectedOutfit.shoes._id,
-        accessories: selectedOutfit.accessories?._id,
+        top: {id: selectedOutfit.top._id, image: selectedOutfit.top.image},
+        bottom: {id: selectedOutfit.bottom._id, image: selectedOutfit.bottom.image},
+        shoes: {id: selectedOutfit.shoes._id, image: selectedOutfit.shoes.image},
+        accessories: {id: selectedOutfit.accessories._id, image: selectedOutfit.accessories.image},
     };
     console.log("outfitData:", outfitData);
     const response = await axios.post("/api/outfits", outfitData, {

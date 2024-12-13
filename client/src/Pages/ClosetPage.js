@@ -30,6 +30,7 @@ const ClosetPage = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+
       setClothingItems(response.data);
     } catch (error) {
       console.error("Cannot get itmes", error);
@@ -39,11 +40,14 @@ const ClosetPage = () => {
   // Fetch for saved outfits
   const getSavedOutfits = async () => {
     try {
-      const response = await axios.get("/api/outfits", {
+      const token = localStorage.getItem("token")
+      const response = await axios.get("/api/outfits/outfits", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
+      console.log("token", token)
+      console.log("FETCHED OUTFITS:", response.data)
       setSavedOutfits(response.data);
     } catch (error) {
       console.error(
@@ -183,21 +187,21 @@ const ClosetPage = () => {
               onClick={() => handleOutfitClick(outfit)}
             >
               <Card.Img
-                src={outfit.thumbnail || outfit.top?.image}
-                alt={outfit.name}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-              <Card.Body className="p-2">
-                <div>{outfit.name}</div>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))
-      ) : (
+              src={outfit.top.length > 0 ? outfit.top[0].image : ""}
+              alt={outfit.name}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+            <Card.Body className="p-2">
+              <div>{outfit.name}</div>
+            </Card.Body>
+          </Card>
+        </Col>
+      ))
+    ) : (
         <div className="col-12">
           <p className="text-center">YOU GOT NO OUTFITS</p>
         </div>

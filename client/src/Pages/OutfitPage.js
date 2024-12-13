@@ -16,12 +16,12 @@ const OutfitPage = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        console.log("Fetched outfit:", response.data)
         setOutfit(response.data);
       } catch (error) {
         console.error("Error fetching outfit details:", error);
       }
     };
-
     fetchOutfitDetails();
   }, [id]);
 
@@ -79,10 +79,10 @@ const OutfitPage = () => {
           <div className="d-flex justify-content-between align-items-center">
             <h1>{outfit.name}</h1>
             <Row>
-              <img src={outfit.top} alt="Selected top" />
-              <img src={outfit.bottom} alt="Selected bottom" />
-              <img src={outfit.shoes} alt="Selected shoes" />
-              <img src={outfit.accessories} alt="Selected accessories" />
+              <img src={outfit.top.image} alt="Selected top" />
+              <img src={outfit.bottom.image} alt="Selected bottom" />
+              <img src={outfit.shoes.image} alt="Selected shoes" />
+              <img src={outfit.accessories.image} alt="Selected accessories" />
             </Row>
             <div>
               <Button variant="secondary" onClick={handleBack} className="me-2">

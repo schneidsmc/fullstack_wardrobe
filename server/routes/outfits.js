@@ -35,10 +35,13 @@ router.post("/", authenticateToken, async (req, res) => {
 // dont forget to update Bearer token
 // POSTMAN GET /outfits
 router.get("/outfits", authenticateToken, async (req, res) => {
+    console.log("outfit route hit")
     try{
+        console.log("Authenticated User ID:", req.user.id);
         const userId = req.user.id;
         const outfits = await Outfit.find({user: userId}).populate("top bottom shoes accessories")
         res.json(outfits);
+        console.log("Fetched outfits:", outfits);
     } catch (error) {
         console.error("error fetching ALL outfits for user:", error);
         res.status(500).json({error: "error fetching ALL outfits for user"})
