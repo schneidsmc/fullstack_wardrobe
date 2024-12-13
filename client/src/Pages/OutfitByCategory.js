@@ -31,7 +31,7 @@ const fetchClothingItems = async () => {
     });
 
     const data = response.data;
-    console.log("response.data", response.data);
+    // console.log("response.data", response.data);
     setTops(
         data.filter(
         (item) =>
@@ -50,7 +50,7 @@ const fetchClothingItems = async () => {
             item.category === "bottom" ||
             item.category === "shorts" ||
             item.category === "pants" ||
-            item.category === "skirts"
+            item.category === "skirt"
         )
     );
     setShoes(
@@ -91,13 +91,13 @@ const handleSelection = (item, category) => {
 const handleSaveOutfit = async () => {
     try {
     const outfitData = {
-        name: "My Outfit",
+        name: outfitName,
         top: {id: selectedOutfit.top._id, image: selectedOutfit.top.image},
         bottom: {id: selectedOutfit.bottom._id, image: selectedOutfit.bottom.image},
         shoes: {id: selectedOutfit.shoes._id, image: selectedOutfit.shoes.image},
         accessories: {id: selectedOutfit.accessories._id, image: selectedOutfit.accessories.image},
     };
-    console.log("outfitData:", outfitData);
+    // console.log("outfitData:", outfitData);
     const response = await axios.post("/api/outfits", outfitData, {
         headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -111,6 +111,8 @@ const handleSaveOutfit = async () => {
         shoes: null,
         accessories: null,
         });
+        setOutfitName("")
+        navigate("/closet")
     }
     } catch (error) {
     console.error("Error saving outfit:", error);

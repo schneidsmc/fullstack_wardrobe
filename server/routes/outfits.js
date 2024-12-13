@@ -10,13 +10,14 @@ const router = express.Router();
 // { "top": "<top_id>", "bottom": "<bottom_id>", "shoes": "<shoes_id>", "accessories": "<accessory_id>"
 router.post("/", authenticateToken, async (req, res) => {
     try{
-        const { top, bottom, shoes, accessories } = req.body;
+        const { name, top, bottom, shoes, accessories } = req.body;
 
         if (!top || !bottom || !shoes) {
         return res.status(400).json({error: "Top, bottom and shoes are required"})
     }
     const newOutfit = new Outfit ({
         user: req.user.id,
+        name,
         top,
         bottom,
         shoes,
@@ -39,7 +40,7 @@ router.get("/outfits", authenticateToken, async (req, res) => {
     try{
         console.log("Authenticated User ID:", req.user.id);
         const userId = req.user.id;
-        const outfits = await Outfit.find({user: userId}).populate("top bottom shoes accessories")
+        const outfits = await Outfit.find({user: userId}).populate("name top bottom shoes accessories")
         res.json(outfits);
         console.log("Fetched outfits:", outfits);
     } catch (error) {

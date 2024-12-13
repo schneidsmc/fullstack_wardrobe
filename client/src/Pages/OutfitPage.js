@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Breadcrumb, Button, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
+
 const OutfitPage = () => {
   const { id } = useParams(); // Get the item ID from the URL parameters
   const navigate = useNavigate();
@@ -16,7 +17,6 @@ const OutfitPage = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log("Fetched outfit:", response.data)
         setOutfit(response.data);
       } catch (error) {
         console.error("Error fetching outfit details:", error);
@@ -64,6 +64,14 @@ const OutfitPage = () => {
     }
   };
 
+  if (!outfit) {
+    return (
+      <div className="container mt-5">
+        <h1>Loading outfit details...</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="container mt-5">
       <Breadcrumb>
@@ -77,12 +85,12 @@ const OutfitPage = () => {
       <Card className="mb-4">
         <Card.Body>
           <div className="d-flex justify-content-between align-items-center">
-            <h1>{outfit.name}</h1>
+            <h1>{outfit.name}</h1>            
             <Row>
-              <img src={outfit.top.image} alt="Selected top" />
-              <img src={outfit.bottom.image} alt="Selected bottom" />
-              <img src={outfit.shoes.image} alt="Selected shoes" />
-              <img src={outfit.accessories.image} alt="Selected accessories" />
+              <img src={outfit.top[0]?.image} alt="Selected top" />
+              <img src={outfit.bottom[0]?.image} alt="Selected bottom" />
+              <img src={outfit.shoes[0]?.image} alt="Selected shoes" />
+              <img src={outfit.accessories[0]?.image} alt="Selected accessories" />
             </Row>
             <div>
               <Button variant="secondary" onClick={handleBack} className="me-2">

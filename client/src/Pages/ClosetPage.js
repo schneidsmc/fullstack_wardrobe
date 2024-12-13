@@ -46,8 +46,8 @@ const ClosetPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("token", token)
-      console.log("FETCHED OUTFITS:", response.data)
+      // console.log("token", token)
+      // console.log("FETCHED OUTFITS:", response.data)
       setSavedOutfits(response.data);
     } catch (error) {
       console.error(
@@ -89,10 +89,10 @@ const ClosetPage = () => {
   const handleSearch = async (query) => {
     try {
       const endpoint =
-        activeTab === "items" ? "/api/upload/clothing" : "/api/outfits"; // search on outfit tab
+        activeTab === "items" ? "/api/upload/clothing" : "/api/outfits/outfits"; // search on outfit tab
       const response = await axios.get(endpoint, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        params: { query }, // Send the search query to the backend
+        params: query ? { query } : {}, // Send the search query to the backend
       });
       if (activeTab === "items") {
         setClothingItems(response.data);
@@ -191,11 +191,20 @@ const ClosetPage = () => {
               alt={outfit.name}
               style={{
                 width: "100%",
-                height: "100%",
+                height: "60%",
                 objectFit: "cover",
               }}
             />
-            <Card.Body className="p-2">
+            <Card.Body
+              style={{
+                display: "flex",
+                justifyContent: "center", 
+                alignItems: "center", 
+                height: "40%", 
+                textAlign: "center", 
+                padding: "0.5rem", 
+              }}
+            >
               <div>{outfit.name}</div>
             </Card.Body>
           </Card>

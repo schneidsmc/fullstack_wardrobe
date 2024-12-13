@@ -7,6 +7,10 @@ const outfitSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
+        name: {
+            type: String,
+            required: true
+        },
         top: [{
             id:{
             type: mongoose.Schema.Types.ObjectId,
